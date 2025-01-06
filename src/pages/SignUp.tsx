@@ -25,17 +25,24 @@ export default function SignUp() {
     e.preventDefault();
     
     try {
-      // Generate a UUID for the new profile
-      const { data: newProfile, error: insertError } = await supabase
+      // First, sign up the user with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) throw authError;
+      if (!authData.user) throw new Error("No user data returned");
+
+      // Then create the profile using the auth user's ID
+      const { error: insertError } = await supabase
         .from("profiles")
         .insert({
-          id: crypto.randomUUID(),
+          id: authData.user.id,
           username: formData.username,
           email: formData.email,
           password: formData.password, // Note: In a production app, you should hash the password
-        })
-        .select()
-        .single();
+        });
 
       if (insertError) throw insertError;
 
@@ -49,7 +56,7 @@ export default function SignUp() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
       });
       console.error("Error:", error);
     }
