@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface PostForm {
   title: string;
@@ -16,22 +16,35 @@ export default function CreatePost() {
   const { register, handleSubmit } = useForm<PostForm>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         navigate("/signin");
+      } else {
+        setUserId(session.user.id);
       }
     };
     checkAuth();
   }, [navigate]);
 
   const onSubmit = async (data: PostForm) => {
+    if (!userId) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to create a post.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase.from("posts").insert({
         title: data.title,
         content: data.content,
+        author_id: userId,
       });
 
       if (error) throw error;
