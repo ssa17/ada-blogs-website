@@ -55,11 +55,7 @@ export default function Index() {
             {posts?.map((post) => (
               <BlogCard
                 key={post.id}
-                title={post.title}
-                excerpt={post.content.substring(0, 150) + "..."}
-                date={new Date(post.created_at).toLocaleDateString()}
-                slug={post.id}
-                author={post.profiles?.username}
+                post={post}
               />
             ))}
           </div>

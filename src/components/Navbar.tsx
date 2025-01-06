@@ -22,10 +22,7 @@ export function Navbar() {
       return;
     }
     
-    // Invalidate and refetch session data
     await queryClient.invalidateQueries({ queryKey: ["session"] });
-    
-    // Navigate to home page
     navigate("/");
   };
 
@@ -40,6 +37,9 @@ export function Navbar() {
             <>
               <Button variant="ghost" onClick={handleSignOut}>
                 Sign Out
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link to="/profile">Profile</Link>
               </Button>
               <Button asChild>
                 <Link to="/posts/new">New Post</Link>
