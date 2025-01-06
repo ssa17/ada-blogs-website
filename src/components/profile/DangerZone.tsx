@@ -30,23 +30,23 @@ export function DangerZone() {
     try {
       // First delete the user's profile
       const { error: profileError } = await supabase
-          .from('profiles')
-          .delete()
-          .eq('id', session.user.id);
+        .from('profiles')
+        .delete()
+        .eq('id', session.user.id);
 
       if (profileError) throw profileError;
 
       // Then delete all user's posts
       const { error: postsError } = await supabase
-          .from('posts')
-          .delete()
-          .eq('author_id', session.user.id);
+        .from('posts')
+        .delete()
+        .eq('author_id', session.user.id);
 
       if (postsError) throw postsError;
 
-      // Finally, delete the user's auth account
-      const { error: deleteError } = await supabase.auth.updateUser({
-        data: { deleted: true }
+      // Call the Edge Function to delete the user from Auth
+      const { error: deleteError } = await supabase.functions.invoke('delete-user', {
+        body: { user_id: session.user.id }
       });
 
       if (deleteError) throw deleteError;
@@ -71,32 +71,32 @@ export function DangerZone() {
   };
 
   return (
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-destructive">Danger Zone</h2>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Account</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove all your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                  onClick={handleDeleteAccount}
-                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  disabled={loading}
-              >
-                {loading ? "Deleting..." : "Delete Account"}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold text-destructive">Danger Zone</h2>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive">Delete Account</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove all your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAccount}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={loading}
+            >
+              {loading ? "Deleting..." : "Delete Account"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }
