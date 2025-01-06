@@ -4,10 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignIn() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,16 +26,15 @@ export default function SignIn() {
     e.preventDefault();
     
     try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select()
-        .eq("email", formData.email)
-        .eq("password", formData.password)
-        .single();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
 
-      if (error || !data) {
-        throw new Error("Invalid credentials");
-      }
+      if (error) throw error;
+
+      // Invalidate and refetch session data
+      await queryClient.invalidateQueries({ queryKey: ["session"] });
 
       toast({
         title: "Success!",
@@ -45,7 +46,7 @@ export default function SignIn() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Invalid email or password.",
+        description: error instanceof Error ? error.message : "Invalid email or password.",
       });
       console.error("Error:", error);
     }
