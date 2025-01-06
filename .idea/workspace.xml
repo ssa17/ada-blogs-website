@@ -1,8 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Properly delete a user" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ssa17"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ssa17/ada-blogs-website.git",
+    "accountId": "a2c9fb29-1684-480c-aad4-c6bcb46e5f29"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2rGA4HhM03T34eLzLPfVsG8Rm33" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{}</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/Users/Syed.Ahmed/Library/Application Support/JetBrains/IntelliJIdea2024.3/node/versions/22.12.0/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "ts.external.directory.path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="" />
+      <created>1736174844661</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736174844661</updated>
+      <workItem from="1736174845796" duration="6455000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit - added other stuff to vcs">
+      <option name="closed" value="true" />
+      <created>1736174971896</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1736174971896</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add nav bar">
+      <option name="closed" value="true" />
+      <created>1736175594170</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736175594170</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add Supabase&#10;&#10;Supabase is an database hosted online">
+      <option name="closed" value="true" />
+      <created>1736175716562</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736175716562</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Set up user authentication">
+      <option name="closed" value="true" />
+      <created>1736175846206</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736175846206</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fix CreatePost author_id error">
+      <option name="closed" value="true" />
+      <created>1736175914165</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736175914165</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add username to sign up page">
+      <option name="closed" value="true" />
+      <created>1736175976145</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1736175976145</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fix sign up">
+      <option name="closed" value="true" />
+      <created>1736176042392</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176042392</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fix TypeScript error in SignUp">
+      <option name="closed" value="true" />
+      <created>1736176100384</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176100384</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Add username field to SignUp">
+      <option name="closed" value="true" />
+      <created>1736176175215</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176175215</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Update sign up page and styling">
+      <option name="closed" value="true" />
+      <created>1736176282105</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176282105</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Fix foreign key constraint error">
+      <option name="closed" value="true" />
+      <created>1736176396259</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176396259</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Fix sign-out navigation error">
+      <option name="closed" value="true" />
+      <created>1736176449290</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176449290</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fix sign-in functionality issue">
+      <option name="closed" value="true" />
+      <created>1736176501222</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176501222</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Fix post editing and deletion confirmation">
+      <option name="closed" value="true" />
+      <created>1736176568655</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176568655</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Fix TypeScript error in EditPost">
+      <option name="closed" value="true" />
+      <created>1736176617280</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176617280</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Update EditPost to show current content">
+      <option name="closed" value="true" />
+      <created>1736176680956</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176680956</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Set loading function when trying to log in or sign up">
+      <option name="closed" value="true" />
+      <created>1736176798528</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1736176798528</updated>
+    </task>
+    <task id="LOCAL-00018" summary="npm install">
+      <option name="closed" value="true" />
+      <created>1736177593998</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1736177593998</updated>
+    </task>
+    <task id="LOCAL-00019" summary="npm audit fix">
+      <option name="closed" value="true" />
+      <created>1736177615584</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1736177615584</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add username availability check">
+      <option name="closed" value="true" />
+      <created>1736177666839</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1736177666839</updated>
+    </task>
+    <task id="LOCAL-00021" summary="package fix">
+      <option name="closed" value="true" />
+      <created>1736178047242</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1736178047242</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Create a Profile page&#10;&#10;In this profile page, users can update their username, password, view their posts and also delete their account.">
+      <option name="closed" value="true" />
+      <created>1736180449886</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1736180449886</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Properly delete a user">
+      <option name="closed" value="true" />
+      <created>1736180690330</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1736180690330</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="Initial commit - added other stuff to vcs" />
+    <MESSAGE value="Add nav bar" />
+    <MESSAGE value="Add Supabase&#10;&#10;Supabase is an database hosted online" />
+    <MESSAGE value="Set up user authentication" />
+    <MESSAGE value="Fix CreatePost author_id error" />
+    <MESSAGE value="Add username to sign up page" />
+    <MESSAGE value="Fix sign up" />
+    <MESSAGE value="Fix TypeScript error in SignUp" />
+    <MESSAGE value="Add username field to SignUp" />
+    <MESSAGE value="Update sign up page and styling" />
+    <MESSAGE value="Fix foreign key constraint error" />
+    <MESSAGE value="Fix sign-out navigation error" />
+    <MESSAGE value="Fix sign-in functionality issue" />
+    <MESSAGE value="Fix post editing and deletion confirmation" />
+    <MESSAGE value="Fix TypeScript error in EditPost" />
+    <MESSAGE value="Update EditPost to show current content" />
+    <MESSAGE value="Set loading function when trying to log in or sign up" />
+    <MESSAGE value="npm install" />
+    <MESSAGE value="npm audit fix" />
+    <MESSAGE value="add username availability check" />
+    <MESSAGE value="package fix" />
+    <MESSAGE value="Create a Profile page&#10;&#10;In this profile page, users can update their username, password, view their posts and also delete their account." />
+    <MESSAGE value="Properly delete a user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Properly delete a user" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
 </project>
