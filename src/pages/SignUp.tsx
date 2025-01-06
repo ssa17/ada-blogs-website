@@ -26,18 +26,21 @@ export default function SignUp() {
         providers={[]}
         view="sign_up"
         redirectTo={window.location.origin}
-        options={{
-          emailRedirectTo: window.location.origin,
-          data: {
-            username: undefined
+        showLinks={false}
+        localization={{
+          variables: {
+            sign_up: {
+              email_label: "Email",
+              password_label: "Password",
+              username_label: "Username",
+              button_label: "Sign Up",
+            }
           }
         }}
-        additionalData={{
+        extendedSignUp={{
           username: {
-            label: 'Username',
-            type: 'text',
-            placeholder: 'Enter your username',
-            validation: { required: true, pattern: '^[a-zA-Z0-9_-]{3,16}$' },
+            required: true,
+            pattern: "^[a-zA-Z0-9_-]{3,16}$",
           }
         }}
       />
