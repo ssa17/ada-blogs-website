@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import CreatePost from "./pages/CreatePost";
 import PostDetail from "./pages/PostDetail";
+import EditPost from "./pages/EditPost";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/signup" element={<SignUp />} />
               <Route path="/posts/new" element={<CreatePost />} />
               <Route path="/posts/:id" element={<PostDetail />} />
+              <Route path="/posts/:id/edit" element={<EditPost />} />
             </Routes>
           </main>
         </div>
