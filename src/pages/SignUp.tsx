@@ -27,6 +27,12 @@ export default function SignUp() {
         view="sign_up"
         redirectTo={window.location.origin}
         showLinks={false}
+        additionalData={{
+          username: {
+            required: true,
+            label: "Username",
+          },
+        }}
         localization={{
           variables: {
             sign_up: {
@@ -34,12 +40,6 @@ export default function SignUp() {
               password_label: "Password",
               button_label: "Sign Up",
             }
-          }
-        }}
-        extendedSignUp={{
-          username: {
-            required: true,
-            pattern: "^[a-zA-Z0-9_-]{3,16}$",
           }
         }}
       />
