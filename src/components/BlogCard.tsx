@@ -6,15 +6,18 @@ interface BlogCardProps {
   excerpt: string;
   date: string;
   slug: string;
+  author?: string;
 }
 
-export function BlogCard({ title, excerpt, date, slug }: BlogCardProps) {
+export function BlogCard({ title, excerpt, date, slug, author }: BlogCardProps) {
   return (
     <Card className="hover:shadow-lg transition-shadow">
-      <Link to={`/blog/${slug}`}>
+      <Link to={`/posts/${slug}`}>
         <CardHeader>
           <CardTitle className="text-2xl">{title}</CardTitle>
-          <p className="text-sm text-muted-foreground">{date}</p>
+          <p className="text-sm text-muted-foreground">
+            {author ? `By ${author} • ${date}` : date}
+          </p>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">{excerpt}</p>

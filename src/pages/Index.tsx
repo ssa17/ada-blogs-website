@@ -1,29 +1,31 @@
 import { BlogCard } from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
-const SAMPLE_POSTS = [
-  {
-    title: "Getting Started with Testing in React",
-    excerpt: "Learn the fundamentals of testing React applications with Jest and React Testing Library.",
-    date: "March 14, 2024",
-    slug: "getting-started-with-testing"
-  },
-  {
-    title: "Understanding E2E Testing with Playwright",
-    excerpt: "A comprehensive guide to end-to-end testing using Playwright.",
-    date: "March 13, 2024",
-    slug: "understanding-e2e-testing"
-  },
-  {
-    title: "Accessibility Testing Best Practices",
-    excerpt: "Discover how to ensure your web applications are accessible to everyone.",
-    date: "March 12, 2024",
-    slug: "accessibility-testing-best-practices"
-  }
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Index() {
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*, profiles(username)")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const { data: session } = useQuery({
+    queryKey: ["session"],
+    queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      return session;
+    },
+  });
+
   return (
     <div className="min-h-screen">
       <section className="bg-secondary py-20">
@@ -32,19 +34,36 @@ export default function Index() {
           <p className="text-xl text-muted-foreground mb-8">
             Exploring testing practices and web development insights.
           </p>
-          <Button asChild size="lg">
-            <Link to="/blog/new">Write a Post</Link>
-          </Button>
+          {session ? (
+            <Button asChild size="lg">
+              <Link to="/posts/new">Write a Post</Link>
+            </Button>
+          ) : (
+            <Button asChild size="lg">
+              <Link to="/signin">Sign in to Write</Link>
+            </Button>
+          )}
         </div>
       </section>
       
       <section className="container py-16">
         <h2 className="text-3xl font-semibold mb-8">Latest Posts</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {SAMPLE_POSTS.map((post) => (
-            <BlogCard key={post.slug} {...post} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div>Loading posts...</div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts?.map((post) => (
+              <BlogCard
+                key={post.id}
+                title={post.title}
+                excerpt={post.content.substring(0, 150) + "..."}
+                date={new Date(post.created_at).toLocaleDateString()}
+                slug={post.id}
+                author={post.profiles?.username}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
