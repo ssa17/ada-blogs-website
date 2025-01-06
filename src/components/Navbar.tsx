@@ -1,10 +1,11 @@
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function Navbar() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   
   const { data: session } = useQuery({
     queryKey: ["session"],
@@ -15,7 +16,16 @@ export function Navbar() {
   });
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error signing out:', error.message);
+      return;
+    }
+    
+    // Invalidate and refetch session data
+    await queryClient.invalidateQueries({ queryKey: ["session"] });
+    
+    // Navigate to home page
     navigate("/");
   };
 
