@@ -4,10 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function SignUp() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -23,32 +25,38 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
-      // First, sign up the user with Supabase Auth
+      // Sign up with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options: {
+          data: {
+            username: formData.username,
+          },
+        },
       });
 
       if (authError) throw authError;
-      if (!authData.user) throw new Error("No user data returned");
 
-      // Then create the profile using the auth user's ID
-      const { error: insertError } = await supabase
-        .from("profiles")
-        .insert({
-          id: authData.user.id,
-          username: formData.username,
-          email: formData.email,
-          password: formData.password, // Note: In a production app, you should hash the password
-        });
+      // Create profile after successful signup
+      if (authData.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: authData.user.id,
+            username: formData.username,
+            email: formData.email,
+          });
 
-      if (insertError) throw insertError;
+        if (profileError) throw profileError;
+      }
 
       toast({
         title: "Success!",
-        description: "Your account has been created.",
+        description: "Please check your email to confirm your account.",
       });
       
       navigate("/signin");
@@ -59,12 +67,19 @@ export default function SignUp() {
         description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
       });
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container max-w-md mx-auto mt-8 p-4">
       <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
+      <Alert className="mb-6">
+        <AlertDescription>
+          After signing up, you'll receive a confirmation email. Please check your inbox and confirm your account.
+        </AlertDescription>
+      </Alert>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="username" className="block text-sm font-medium mb-1">
@@ -77,6 +92,7 @@ export default function SignUp() {
             required
             value={formData.username}
             onChange={handleChange}
+            disabled={loading}
           />
         </div>
         <div>
@@ -90,6 +106,7 @@ export default function SignUp() {
             required
             value={formData.email}
             onChange={handleChange}
+            disabled={loading}
           />
         </div>
         <div>
@@ -103,10 +120,11 @@ export default function SignUp() {
             required
             value={formData.password}
             onChange={handleChange}
+            disabled={loading}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Sign Up
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Signing up..." : "Sign Up"}
         </Button>
       </form>
     </div>

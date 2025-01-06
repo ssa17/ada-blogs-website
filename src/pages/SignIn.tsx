@@ -10,6 +10,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,6 +25,7 @@ export default function SignIn() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -49,6 +51,8 @@ export default function SignIn() {
         description: error instanceof Error ? error.message : "Invalid email or password.",
       });
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,6 +71,7 @@ export default function SignIn() {
             required
             value={formData.email}
             onChange={handleChange}
+            disabled={loading}
           />
         </div>
         <div>
@@ -80,10 +85,11 @@ export default function SignIn() {
             required
             value={formData.password}
             onChange={handleChange}
+            disabled={loading}
           />
         </div>
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Signing in..." : "Sign In"}
         </Button>
       </form>
     </div>
