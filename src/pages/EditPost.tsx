@@ -84,6 +84,7 @@ export default function EditPost() {
           </label>
           <Input
             id="title"
+            defaultValue={post.title}
             {...register("title", { required: true })}
             className="w-full"
           />
@@ -94,6 +95,7 @@ export default function EditPost() {
           </label>
           <Textarea
             id="content"
+            defaultValue={post.content}
             {...register("content", { required: true })}
             className="w-full min-h-[200px]"
           />
