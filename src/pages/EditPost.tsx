@@ -30,12 +30,14 @@ export default function EditPost() {
       if (error) throw error;
       return data;
     },
-    onSuccess: (data) => {
-      reset({
-        title: data.title,
-        content: data.content,
-      });
-    },
+    meta: {
+      onSuccess: (data) => {
+        reset({
+          title: data.title,
+          content: data.content,
+        });
+      }
+    }
   });
 
   const onSubmit = async (data: PostForm) => {
