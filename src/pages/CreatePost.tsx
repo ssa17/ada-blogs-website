@@ -85,19 +85,19 @@ export default function CreatePost() {
   };
 
   if (isLoading) {
-    return <div className="container max-w-2xl mx-auto mt-8 p-4">Loading editor...</div>;
+    return <div className="max-w-5xl mx-auto mt-8 p-4">Loading editor...</div>;
   }
 
   if (error || !editorConfig?.apiKey) {
     return (
-      <div className="container max-w-2xl mx-auto mt-8 p-4">
+      <div className="max-w-5xl mx-auto mt-8 p-4">
         <div className="text-red-500">Failed to load editor. Please try again later.</div>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-2xl mx-auto mt-8 p-4">
+    <div className="max-w-5xl mx-auto mt-8 p-4">
       <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
