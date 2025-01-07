@@ -12,6 +12,7 @@ import PostDetail from "./pages/PostDetail";
 import EditPost from "./pages/EditPost";
 import Profile from "./pages/Profile";
 import EmailConfirmed from "@/pages/EmailConfirmed.tsx";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,8 @@ const App = () => (
               <Route path="/posts/:id/edit" element={<EditPost />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/email/confirmed" element={<EmailConfirmed />} />
+              {/* Catch-All Route */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
         </div>

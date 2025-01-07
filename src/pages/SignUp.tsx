@@ -76,7 +76,7 @@ export default function SignUp() {
           data: {
             username: formData.username,
           },
-          emailRedirectTo: "https://syed-blogs.netlify.app/signin",
+          emailRedirectTo: "https://syed-blogs.netlify.app/email/confirmed",
         },
       });
 
