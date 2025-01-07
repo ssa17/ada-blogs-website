@@ -5,6 +5,3 @@
 **/*.iml
 
 **/node_modules
-
-public/favicon.*
-public/og-image.*
