@@ -97,46 +97,56 @@ export default function CreatePost() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto mt-8 p-4">
+    <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
       <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium mb-1">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
             Title
           </label>
           <Input
             id="title"
             {...register("title", { required: true })}
             className="w-full"
+            placeholder="Enter your post title"
           />
         </div>
-        <div>
-          <label htmlFor="content" className="block text-sm font-medium mb-1">
+        <div className="space-y-2">
+          <label htmlFor="content" className="block text-sm font-medium text-gray-700">
             Content
           </label>
           <Editor
-            apiKey={editorConfig.apiKey}
-            onInit={(evt, editor) => editorRef.current = editor}
-            init={{
-              height: 400,
-              menubar: false,
-              plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-              ],
-              toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-              content_style: 'body { font-family:Inter,Arial,sans-serif; font-size:14px }'
-            }}
-            onEditorChange={(content) => {
-              setValue("content", content);
-            }}
+              apiKey={editorConfig.apiKey}
+              onInit={(evt, editor) => editorRef.current = editor}
+              init={{
+                height: 400,
+                menubar: false,
+                plugins: [
+                  'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
+                  'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
+                  'insertdatetime', 'table', 'codesample', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | ' +
+                    'bold italic underline forecolor | alignleft aligncenter alignright | ' +
+                    'bullist numlist outdent indent | ' +
+                    'link codesample | removeformat | help',
+                content_style: 'body { font-family:Inter,Arial,sans-serif; font-size:14px }',
+                codesample_languages: [
+                  { text: 'HTML/XML', value: 'markup' },
+                  { text: 'JavaScript', value: 'javascript' },
+                  { text: 'CSS', value: 'css' },
+                  { text: 'Python', value: 'python' },
+                  { text: 'Java', value: 'java' },
+                  { text: 'C', value: 'c' },
+                  { text: 'C++', value: 'cpp' }
+                ]
+              }}
+              onEditorChange={(content) => {
+                setValue("content", content);
+              }}
           />
         </div>
-        <Button type="submit">Create Post</Button>
+        <Button type="submit" className="w-full md:w-auto">Create Post</Button>
       </form>
     </div>
   );

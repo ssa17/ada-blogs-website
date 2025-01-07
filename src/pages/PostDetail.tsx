@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 import { Pencil, Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import DOMPurify from "dompurify";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -67,23 +68,34 @@ export default function PostDetail() {
   };
 
   if (isLoading) {
-    return <div className="container mx-auto p-4">Loading...</div>;
+    return <div className="container max-w-3xl mx-auto mt-8 p-4">Loading...</div>;
   }
 
   if (!post) {
-    return <div className="container mx-auto p-4">Post not found</div>;
+    return <div className="container max-w-3xl mx-auto mt-8 p-4">Post not found</div>;
   }
 
   const isAuthor = session?.user?.id === post.author_id;
 
+  // Configure DOMPurify to allow code blocks
+  const sanitizeConfig = {
+    ADD_TAGS: ['pre', 'code'],
+    ADD_ATTR: ['class'],
+  };
+
   return (
     <div className="container max-w-3xl mx-auto mt-8 p-4">
-      <article className="prose lg:prose-xl">
+      <article className="prose lg:prose-xl max-w-none dark:prose-invert">
         <h1>{post.title}</h1>
         <div className="text-sm text-muted-foreground mb-4">
           By {post.profiles?.username} • {new Date(post.created_at).toLocaleDateString()}
         </div>
-        <div className="whitespace-pre-wrap">{post.content}</div>
+        <div 
+          className="[&_pre]:bg-muted [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_code]:text-sm [&_code]:font-mono"
+          dangerouslySetInnerHTML={{ 
+            __html: DOMPurify.sanitize(post.content, sanitizeConfig) 
+          }} 
+        />
       </article>
       
       {isAuthor && (

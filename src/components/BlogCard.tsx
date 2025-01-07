@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Link } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 interface BlogCardProps {
   post: {
@@ -15,7 +16,12 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   const date = new Date(post.created_at).toLocaleDateString();
-  const excerpt = post.content.slice(0, 150) + (post.content.length > 150 ? "..." : "");
+  
+  // Create a temporary div to strip HTML tags for the excerpt
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = post.content;
+  const textContent = tempDiv.textContent || tempDiv.innerText;
+  const excerpt = textContent.slice(0, 150) + (textContent.length > 150 ? "..." : "");
 
   return (
     <Card className="hover:shadow-lg transition-shadow">
