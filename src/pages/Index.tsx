@@ -32,15 +32,15 @@ export default function Index() {
         <div className="container">
           <h1 className="text-5xl font-bold mb-6">Welcome to ADA Blog</h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Exploring testing practices and web development insights.
+            The place for all your blogging needs.
           </p>
           {session ? (
             <Button asChild size="lg">
-              <Link to="/posts/new">Write a Post</Link>
+              <Link to="/posts/new">Create a post</Link>
             </Button>
           ) : (
             <Button asChild size="lg">
-              <Link to="/signin">Sign in to Write</Link>
+              <Link to="/signin">Sign in to post</Link>
             </Button>
           )}
         </div>

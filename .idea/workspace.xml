@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Properly delete a user" />
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="wip - Update the text input field for create post to have styling">
+      <change beforePath="$PROJECT_DIR$/src/pages/CreatePost.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CreatePost.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1736174844661</updated>
-      <workItem from="1736174845796" duration="6455000" />
+      <workItem from="1736174845796" duration="14110000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit - added other stuff to vcs">
       <option name="closed" value="true" />
@@ -254,7 +257,31 @@
       <option name="project" value="LOCAL" />
       <updated>1736180690330</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Fix issue deleting a user from Supabase">
+      <option name="closed" value="true" />
+      <created>1736182028926</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1736182028926</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Fix issue local TS checking issue">
+      <option name="closed" value="true" />
+      <created>1736182552957</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1736182552957</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Update README.md">
+      <option name="closed" value="true" />
+      <created>1736183255109</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1736183255109</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,7 +312,10 @@
     <MESSAGE value="package fix" />
     <MESSAGE value="Create a Profile page&#10;&#10;In this profile page, users can update their username, password, view their posts and also delete their account." />
     <MESSAGE value="Properly delete a user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Properly delete a user" />
+    <MESSAGE value="Fix issue deleting a user from Supabase" />
+    <MESSAGE value="Fix issue local TS checking issue" />
+    <MESSAGE value="Update README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
