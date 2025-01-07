@@ -121,9 +121,9 @@ export default function CreatePost() {
               height: 400,
               menubar: false,
               plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'table', 'code', 'help', 'wordcount'
+                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
               ],
               toolbar: 'undo redo | blocks | ' +
                 'bold italic forecolor | alignleft aligncenter ' +
