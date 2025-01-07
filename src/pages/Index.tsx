@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Separator } from "@/components/ui/separator";
 
 export default function Index() {
   const { data: posts, isLoading } = useQuery({
@@ -28,9 +29,9 @@ export default function Index() {
 
   return (
     <div className="min-h-screen">
-      <section className="bg-secondary py-20">
-        <div className="container">
-          <h1 className="text-5xl font-bold mb-6">Welcome to ADA Blog</h1>
+      <section className="w-full bg-secondary/50 dark:bg-secondary/10">
+        <div className="container py-20">
+          <h1 className="text-5xl font-bold mb-6">Welcome to ADA Blogs</h1>
           <p className="text-xl text-muted-foreground mb-8">
             The place for all your blogging needs.
           </p>
@@ -45,7 +46,9 @@ export default function Index() {
           )}
         </div>
       </section>
-      
+
+      <Separator className="my-0" />
+
       <section className="container py-16">
         <h2 className="text-3xl font-semibold mb-8">Latest Posts</h2>
         {isLoading ? (

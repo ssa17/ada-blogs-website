@@ -27,36 +27,36 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="text-xl font-semibold">
-          ADA Blog
-        </Link>
-        <div className="flex gap-4">
-          {session ? (
-            <>
-              <Button variant="ghost" onClick={handleSignOut}>
-                Sign Out
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link to="/profile">Profile</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/posts/new">New Post</Link>
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link to="/signin">Sign In</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/signup">Sign Up</Link>
-              </Button>
-            </>
-          )}
+      <nav className="border-b sticky top-0 bg-background z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Link to="/" className="text-xl font-semibold">
+            ADA Blogs
+          </Link>
+          <div className="flex gap-4">
+            {session ? (
+                <>
+                  <Button variant="ghost" onClick={handleSignOut}>
+                    Sign Out
+                  </Button>
+                  <Button variant="ghost" asChild>
+                    <Link to="/profile">Profile</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link to="/posts/new">New Post</Link>
+                  </Button>
+                </>
+            ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link to="/signin">Sign In</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link to="/signup">Sign Up</Link>
+                  </Button>
+                </>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
   );
 }
