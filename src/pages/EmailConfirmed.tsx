@@ -1,19 +1,24 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export default function EmailConfirmed() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const type = queryParams.get("type");
+    const hash = window.location.hash; // Get the fragment part of the URL
+    const params = new URLSearchParams(hash.substring(1)); // Remove the '#' and parse parameters
 
-    if (type !== "signup") {
-      navigate("/"); // Redirect if the type is not "signup"
+    const accessToken = params.get("access_token");
+    const type = params.get("type");
+
+    if (type === "signup" && accessToken) {
+      console.log("Signup confirmed! Token:", accessToken);
+      // Optionally, verify or process the token here
+    } else {
+      console.warn("Invalid or missing token/type.");
     }
-  }, [location, navigate]);
+  }, []);
 
   return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
