@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="wip - Update the text input field for create post to have styling">
-      <change beforePath="$PROJECT_DIR$/src/pages/CreatePost.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CreatePost.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Index.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="remove images" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,45 +13,57 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ssa17"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ssa17&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ssa17/ada-blogs-website.git",
-    "accountId": "a2c9fb29-1684-480c-aad4-c6bcb46e5f29"
+}</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="preview" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ssa17/ada-blogs-website.git&quot;,
+    &quot;accountId&quot;: &quot;a2c9fb29-1684-480c-aad4-c6bcb46e5f29&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2rGA4HhM03T34eLzLPfVsG8Rm33" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "/Users/Syed.Ahmed/Library/Application Support/JetBrains/IntelliJIdea2024.3/node/versions/22.12.0/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/Users/Syed.Ahmed/Library/Application Support/JetBrains/IntelliJIdea2024.3/node/versions/22.12.0/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -281,20 +290,61 @@
       <option name="project" value="LOCAL" />
       <updated>1736183255109</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Some styling">
+      <option name="closed" value="true" />
+      <created>1736263251272</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1736263251272</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Email confirmation page">
+      <option name="closed" value="true" />
+      <created>1736264811637</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1736264811637</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Fix Email confirmation page">
+      <option name="closed" value="true" />
+      <created>1736265558928</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1736265558928</updated>
+    </task>
+    <task id="LOCAL-00030" summary="more fixes">
+      <option name="closed" value="true" />
+      <created>1736265996788</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1736265996788</updated>
+    </task>
+    <task id="LOCAL-00031" summary="remove images">
+      <option name="closed" value="true" />
+      <created>1736270342463</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1736270342463</updated>
+    </task>
+    <task id="LOCAL-00032" summary="remove images">
+      <option name="closed" value="true" />
+      <created>1736271256147</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1736271256147</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial commit" />
-    <MESSAGE value="Initial commit - added other stuff to vcs" />
-    <MESSAGE value="Add nav bar" />
-    <MESSAGE value="Add Supabase&#10;&#10;Supabase is an database hosted online" />
-    <MESSAGE value="Set up user authentication" />
-    <MESSAGE value="Fix CreatePost author_id error" />
-    <MESSAGE value="Add username to sign up page" />
     <MESSAGE value="Fix sign up" />
     <MESSAGE value="Fix TypeScript error in SignUp" />
     <MESSAGE value="Add username field to SignUp" />
@@ -315,7 +365,12 @@
     <MESSAGE value="Fix issue deleting a user from Supabase" />
     <MESSAGE value="Fix issue local TS checking issue" />
     <MESSAGE value="Update README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
+    <MESSAGE value="Some styling" />
+    <MESSAGE value="Email confirmation page" />
+    <MESSAGE value="Fix Email confirmation page" />
+    <MESSAGE value="more fixes" />
+    <MESSAGE value="remove images" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove images" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
