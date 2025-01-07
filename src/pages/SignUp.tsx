@@ -55,7 +55,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!usernameAvailable) {
       toast({
         variant: "destructive",
@@ -64,9 +64,9 @@ export default function SignUp() {
       });
       return;
     }
-    
+
     setLoading(true);
-    
+
     try {
       // Sign up with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -76,6 +76,7 @@ export default function SignUp() {
           data: {
             username: formData.username,
           },
+          emailRedirectTo: "https://syed-blogs.netlify.app/signin",
         },
       });
 
@@ -84,12 +85,12 @@ export default function SignUp() {
       // Create profile after successful signup
       if (authData.user) {
         const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: authData.user.id,
-            username: formData.username,
-            email: formData.email,
-          });
+            .from("profiles")
+            .insert({
+              id: authData.user.id,
+              username: formData.username,
+              email: formData.email,
+            });
 
         if (profileError) throw profileError;
       }
@@ -98,7 +99,7 @@ export default function SignUp() {
         title: "Success!",
         description: "Please check your email to confirm your account.",
       });
-      
+
       navigate("/signin");
     } catch (error) {
       toast({
