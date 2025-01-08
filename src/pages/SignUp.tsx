@@ -26,7 +26,7 @@ export default function SignUp() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('username'.toLowerCase())
+        .select('username')
         .eq('username', username.toLowerCase)
         .maybeSingle();
 
