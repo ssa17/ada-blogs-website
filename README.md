@@ -51,6 +51,18 @@ yarn dev
 ```
 Access the app at `http://localhost:8000`.
 
+### Testing
+1. To run the tests:
+   ```bash
+   npm test
+   ```
+2. To run the tests in a UI mode:
+   ```bash
+   npm test -- --ui
+   # or
+   npx vitest --ui
+   ```
+
 ## Contributing
 Contributions are welcome! Please follow these steps:
 1. Fork the repository.

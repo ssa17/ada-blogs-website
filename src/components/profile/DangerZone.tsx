@@ -28,7 +28,6 @@ export function DangerZone() {
 
     setLoading(true);
     try {
-      // First delete the user's profile
       const { error: profileError } = await supabase
         .from('profiles')
         .delete()
@@ -36,7 +35,6 @@ export function DangerZone() {
 
       if (profileError) throw profileError;
 
-      // Then delete all user's posts
       const { error: postsError } = await supabase
         .from('posts')
         .delete()

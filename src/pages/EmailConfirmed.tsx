@@ -6,15 +6,14 @@ export default function EmailConfirmed() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const hash = window.location.hash; // Get the fragment part of the URL
-    const params = new URLSearchParams(hash.substring(1)); // Remove the '#' and parse parameters
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.substring(1));
 
     const accessToken = params.get("access_token");
     const type = params.get("type");
 
     if (type === "signup" && accessToken) {
       console.log("Signup confirmed! Token:", accessToken);
-      // Optionally, verify or process the token here
     } else {
       console.warn("Invalid or missing token/type.");
     }

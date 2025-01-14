@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Link } from "react-router-dom";
-import DOMPurify from "dompurify";
 
 interface BlogCardProps {
   post: {
@@ -17,10 +16,8 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   const date = new Date(post.created_at).toLocaleDateString();
   
-  // Create a temporary div to strip HTML tags for the excerpt
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = post.content;
-  const textContent = tempDiv.textContent || tempDiv.innerText;
+  // Strip HTML tags and create excerpt using regex
+  const textContent = post.content.replace(/<[^>]+>/g, '');
   const excerpt = textContent.slice(0, 150) + (textContent.length > 150 ? "..." : "");
 
   return (

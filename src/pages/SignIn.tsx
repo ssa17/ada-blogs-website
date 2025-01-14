@@ -35,7 +35,6 @@ export default function SignIn() {
 
       if (error) throw error;
 
-      // Invalidate and refetch session data
       await queryClient.invalidateQueries({ queryKey: ["session"] });
 
       toast({

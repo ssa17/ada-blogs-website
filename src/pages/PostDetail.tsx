@@ -78,7 +78,6 @@ export default function PostDetail() {
 
   const isAuthor = session?.user?.id === post.author_id;
 
-  // Configure DOMPurify to allow code blocks
   const sanitizeConfig = {
     ADD_TAGS: ['pre', 'code'],
     ADD_ATTR: ['class'],
