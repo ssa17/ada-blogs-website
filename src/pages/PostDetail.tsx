@@ -100,7 +100,7 @@ export default function PostDetail() {
                 <div className="container max-w-3xl mx-auto px-4">
                     <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
                     <div className="text-sm text-muted-foreground">
-                        By {post.profiles?.username} • {formatDateTime(post.created_at)}
+                        By {post.profiles?.username} • Created on {formatDateTime(post.created_at)}
                         {post.edited_at && ` • Edited ${formatDateTime(post.edited_at)}`}
                     </div>
                 </div>
