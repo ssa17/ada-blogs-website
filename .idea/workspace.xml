@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="remove images" />
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Add created text" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,29 +40,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;/Users/Syed.Ahmed/Library/Application Support/JetBrains/IntelliJIdea2024.3/node/versions/22.12.0/bin/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Vitest.CreatePost.renders the CreatePost form.executor": "Run",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/Users/Syed.Ahmed/Library/Application Support/JetBrains/IntelliJIdea2024.3/node/versions/22.12.0/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/Syed.Ahmed/workspace/ADA/ada-blogs-website/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="CreatePost.renders the CreatePost form" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <vitest-options value="--run" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/test/CreatePost.test.tsx" />
+      <test-names>
+        <test-name value="CreatePost" />
+        <test-name value="renders the CreatePost form" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Vitest.CreatePost.renders the CreatePost form" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -339,24 +361,133 @@
       <option name="project" value="LOCAL" />
       <updated>1736271256147</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Undo unworking change">
+      <option name="closed" value="true" />
+      <created>1736872016472</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1736872016472</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Refactoring and create tests">
+      <option name="closed" value="true" />
+      <created>1736879271276</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1736879271276</updated>
+    </task>
+    <task id="LOCAL-00035" summary="ts ignore">
+      <option name="closed" value="true" />
+      <created>1736879387599</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1736879387599</updated>
+    </task>
+    <task id="LOCAL-00036" summary="fix for Netlify deployment">
+      <option name="closed" value="true" />
+      <created>1736879731736</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1736879731736</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Npm install bun">
+      <option name="closed" value="true" />
+      <created>1736957560011</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1736957560011</updated>
+    </task>
+    <task id="LOCAL-00038" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1737039574471</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1737039574471</updated>
+    </task>
+    <task id="LOCAL-00039" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1737048160121</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1737048160121</updated>
+    </task>
+    <task id="LOCAL-00040" summary="refactor">
+      <option name="closed" value="true" />
+      <created>1737048178540</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1737048178540</updated>
+    </task>
+    <task id="LOCAL-00041" summary="more refactoring">
+      <option name="closed" value="true" />
+      <created>1737048226326</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1737048226326</updated>
+    </task>
+    <task id="LOCAL-00042" summary="more refactoring">
+      <option name="closed" value="true" />
+      <created>1737048255167</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1737048255167</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Fix editing issue">
+      <option name="closed" value="true" />
+      <created>1737050514660</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1737050514660</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Display time stamps">
+      <option name="closed" value="true" />
+      <created>1737050986425</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1737050986425</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Fix tests">
+      <option name="closed" value="true" />
+      <created>1737051230907</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1737051230907</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Add created text">
+      <option name="closed" value="true" />
+      <created>1737051545601</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1737051545601</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Add created text">
+      <option name="closed" value="true" />
+      <created>1737051567459</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1737051567459</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix sign up" />
-    <MESSAGE value="Fix TypeScript error in SignUp" />
-    <MESSAGE value="Add username field to SignUp" />
-    <MESSAGE value="Update sign up page and styling" />
-    <MESSAGE value="Fix foreign key constraint error" />
-    <MESSAGE value="Fix sign-out navigation error" />
-    <MESSAGE value="Fix sign-in functionality issue" />
-    <MESSAGE value="Fix post editing and deletion confirmation" />
-    <MESSAGE value="Fix TypeScript error in EditPost" />
-    <MESSAGE value="Update EditPost to show current content" />
-    <MESSAGE value="Set loading function when trying to log in or sign up" />
     <MESSAGE value="npm install" />
     <MESSAGE value="npm audit fix" />
     <MESSAGE value="add username availability check" />
@@ -371,7 +502,18 @@
     <MESSAGE value="Fix Email confirmation page" />
     <MESSAGE value="more fixes" />
     <MESSAGE value="remove images" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove images" />
+    <MESSAGE value="Undo unworking change" />
+    <MESSAGE value="Refactoring and create tests" />
+    <MESSAGE value="ts ignore" />
+    <MESSAGE value="fix for Netlify deployment" />
+    <MESSAGE value="Npm install bun" />
+    <MESSAGE value="refactor" />
+    <MESSAGE value="more refactoring" />
+    <MESSAGE value="Fix editing issue" />
+    <MESSAGE value="Display time stamps" />
+    <MESSAGE value="Fix tests" />
+    <MESSAGE value="Add created text" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add created text" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
