@@ -14,6 +14,7 @@ export type Database = {
           author_id: string
           content: string
           created_at: string
+          edited_at: string | null
           id: string
           title: string
           updated_at: string
@@ -22,6 +23,7 @@ export type Database = {
           author_id: string
           content: string
           created_at?: string
+          edited_at?: string | null
           id?: string
           title: string
           updated_at?: string
@@ -30,6 +32,7 @@ export type Database = {
           author_id?: string
           content?: string
           created_at?: string
+          edited_at?: string | null
           id?: string
           title?: string
           updated_at?: string

@@ -90,6 +90,7 @@ export default function PostDetail() {
                     <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
                     <div className="text-sm text-muted-foreground">
                         By {post.profiles?.username} • {new Date(post.created_at).toLocaleDateString()}
+                        {post.edited_at && ` • Edited ${new Date(post.edited_at).toLocaleDateString()}`}
                     </div>
                 </div>
             </div>
