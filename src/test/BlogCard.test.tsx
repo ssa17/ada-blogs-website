@@ -23,7 +23,7 @@ describe("BlogCard", () => {
         );
 
         expect(screen.getByText(mockPost.title)).toBeInTheDocument();
-        expect(screen.getByText(/By testuser • Jan 16, 2025, 06:10 PM/)).toBeInTheDocument();
+        expect(screen.getByText(/By testuser • Created on Jan 16, 2025, 06:10 PM/)).toBeInTheDocument();
     });
 
     it("renders truncated content", () => {

@@ -37,7 +37,7 @@ export function BlogCard({post}: BlogCardProps) {
                 <CardHeader>
                     <CardTitle className="text-2xl">{post.title}</CardTitle>
                     <p className="text-sm text-muted-foreground">
-                        {post.profiles?.username ? `By ${post.profiles.username} • ${formatDateTime(post.created_at)}` : formatDateTime(post.created_at)}
+                        {post.profiles?.username ? `By ${post.profiles.username} • Created on ${formatDateTime(post.created_at)}` : formatDateTime(post.created_at)}
                         {post.edited_at && ` • Edited ${formatDateTime(post.edited_at)}`}
                     </p>
                 </CardHeader>
