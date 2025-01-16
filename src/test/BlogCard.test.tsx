@@ -7,7 +7,7 @@ const mockPost = {
     id: '1',
     title: 'Test Post',
     content: '<p>Test content that is longer than 150 characters. '.repeat(10) + '</p>',
-    created_at: new Date().toISOString(),
+    created_at: '2025-01-16T18:10:00Z',
     edited_at: null,
     profiles: {
         username: 'testuser'
@@ -23,7 +23,7 @@ describe("BlogCard", () => {
         );
 
         expect(screen.getByText(mockPost.title)).toBeInTheDocument();
-        expect(screen.getByText(`By ${mockPost.profiles.username} • ${new Date(mockPost.created_at).toLocaleDateString()}`)).toBeInTheDocument();
+        expect(screen.getByText(/By testuser • Jan 16, 2025, 06:10 PM/)).toBeInTheDocument();
     });
 
     it("renders truncated content", () => {
@@ -50,7 +50,7 @@ describe("BlogCard", () => {
             </MemoryRouter>
         );
 
-        expect(screen.getByText(new Date(mockPost.created_at).toLocaleDateString())).toBeInTheDocument();
+        expect(screen.getByText(/Jan 16, 2025, 06:10 PM/)).toBeInTheDocument();
     });
 
     it("strips HTML tags from content", () => {
