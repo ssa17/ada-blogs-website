@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useNavigate, useParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState, useRef } from "react";
-import { Editor } from '@tinymce/tinymce-react';
-import { useQuery } from "@tanstack/react-query";
+import {useForm} from "react-hook-form";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {useNavigate, useParams} from "react-router-dom";
+import {supabase} from "@/integrations/supabase/client";
+import {useToast} from "@/hooks/use-toast";
+import {useEffect, useState, useRef} from "react";
+import {Editor} from '@tinymce/tinymce-react';
+import {useQuery} from "@tanstack/react-query";
 
 interface PostForm {
     title: string;
@@ -14,15 +14,15 @@ interface PostForm {
 }
 
 export default function EditPost() {
-    const { id } = useParams();
-    const { register, handleSubmit, setValue } = useForm<PostForm>();
+    const {id} = useParams();
+    const {register, handleSubmit, setValue} = useForm<PostForm>();
     const navigate = useNavigate();
-    const { toast } = useToast();
+    const {toast} = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
     const [initialContent, setInitialContent] = useState<string>("");
 
-    const { data: editorConfig, isLoading: isEditorLoading, error: editorError } = useQuery({
+    const {data: editorConfig, isLoading: isEditorLoading, error: editorError} = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
             const response = await supabase.functions.invoke('get-tinymce-key');
@@ -31,10 +31,10 @@ export default function EditPost() {
         },
     });
 
-    const { data: post, isLoading: isPostLoading, error: postError } = useQuery({
+    const {data: post, isLoading: isPostLoading, error: postError} = useQuery({
         queryKey: ['post', id],
         queryFn: async () => {
-            const { data, error } = await supabase
+            const {data, error} = await supabase
                 .from("posts")
                 .select("*")
                 .eq("id", id)
@@ -55,7 +55,7 @@ export default function EditPost() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const {data: {session}} = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
@@ -86,7 +86,7 @@ export default function EditPost() {
         }
 
         try {
-            const { error } = await supabase
+            const {error} = await supabase
                 .from("posts")
                 .update({
                     title: data.title,
@@ -132,7 +132,7 @@ export default function EditPost() {
                     </label>
                     <Input
                         id="title"
-                        {...register("title", { required: true })}
+                        {...register("title", {required: true})}
                         className="w-full"
                         placeholder="Enter your post title"
                     />
