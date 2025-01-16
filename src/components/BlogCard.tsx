@@ -15,7 +15,17 @@ interface BlogCardProps {
 }
 
 export function BlogCard({post}: BlogCardProps) {
-    const date = new Date(post.created_at).toLocaleDateString();
+    const
+        formatDateTime = (dateString: string) => {
+            const date = new Date(dateString);
+            return date.toLocaleString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        };
 
     // Strip HTML tags and create excerpt using regex
     const textContent = post.content.replace(/<[^>]+>/g, '');
@@ -27,8 +37,8 @@ export function BlogCard({post}: BlogCardProps) {
                 <CardHeader>
                     <CardTitle className="text-2xl">{post.title}</CardTitle>
                     <p className="text-sm text-muted-foreground">
-                        {post.profiles?.username ? `By ${post.profiles.username} • ${date}` : date}
-                        {post.edited_at && " • Edited"}
+                        {post.profiles?.username ? `By ${post.profiles.username} • ${formatDateTime(post.created_at)}` : formatDateTime(post.created_at)}
+                        {post.edited_at && ` • Edited ${formatDateTime(post.edited_at)}`}
                     </p>
                 </CardHeader>
                 <CardContent>

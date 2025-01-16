@@ -45,6 +45,17 @@ export default function PostDetail() {
         },
     });
 
+    const formatDateTime = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
     const handleDelete = async () => {
         try {
             const {error} = await supabase
@@ -89,8 +100,8 @@ export default function PostDetail() {
                 <div className="container max-w-3xl mx-auto px-4">
                     <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
                     <div className="text-sm text-muted-foreground">
-                        By {post.profiles?.username} • {new Date(post.created_at).toLocaleDateString()}
-                        {post.edited_at && ` • Edited ${new Date(post.edited_at).toLocaleDateString()}`}
+                        By {post.profiles?.username} • {formatDateTime(post.created_at)}
+                        {post.edited_at && ` • Edited ${formatDateTime(post.edited_at)}`}
                     </div>
                 </div>
             </div>
