@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Add created text" />
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Upgrade Nodejs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,13 +21,6 @@
     &quot;assignee&quot;: &quot;ssa17&quot;
   }
 }</component>
-  <component name="GithubProjectSettings">
-    <option name="branchProtectionPatterns">
-      <list>
-        <option value="preview" />
-      </list>
-    </option>
-  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ssa17/ada-blogs-website.git&quot;,
@@ -481,15 +476,40 @@
       <option name="project" value="LOCAL" />
       <updated>1737051567459</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Revert deno workflow">
+      <option name="closed" value="true" />
+      <created>1737384657057</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1737384657058</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Upgrade Nodejs">
+      <option name="closed" value="true" />
+      <created>1737384917876</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1737384917876</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="npm install" />
-    <MESSAGE value="npm audit fix" />
     <MESSAGE value="add username availability check" />
     <MESSAGE value="package fix" />
     <MESSAGE value="Create a Profile page&#10;&#10;In this profile page, users can update their username, password, view their posts and also delete their account." />
@@ -513,7 +533,9 @@
     <MESSAGE value="Display time stamps" />
     <MESSAGE value="Fix tests" />
     <MESSAGE value="Add created text" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add created text" />
+    <MESSAGE value="Revert deno workflow" />
+    <MESSAGE value="Upgrade Nodejs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade Nodejs" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
