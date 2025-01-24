@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="Upgrade Nodejs">
+    <list default="true" id="69c6d0b0-cdfc-4e40-9fa9-f641b29a5c8a" name="Changes" comment="settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +21,13 @@
     &quot;assignee&quot;: &quot;ssa17&quot;
   }
 }</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="preview" />
+      </list>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ssa17/ada-blogs-website.git&quot;,
@@ -99,14 +106,6 @@
       <updated>1736174844661</updated>
       <workItem from="1736174845796" duration="14110000" />
       <workItem from="1736335661466" duration="5000" />
-    </task>
-    <task id="LOCAL-00001" summary="Initial commit - added other stuff to vcs">
-      <option name="closed" value="true" />
-      <created>1736174971896</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1736174971896</updated>
     </task>
     <task id="LOCAL-00002" summary="Add nav bar">
       <option name="closed" value="true" />
@@ -492,7 +491,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737384917876</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="settings">
+      <option name="closed" value="true" />
+      <created>1737386382870</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1737386382870</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +517,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add username availability check" />
     <MESSAGE value="package fix" />
     <MESSAGE value="Create a Profile page&#10;&#10;In this profile page, users can update their username, password, view their posts and also delete their account." />
     <MESSAGE value="Properly delete a user" />
@@ -535,7 +541,8 @@
     <MESSAGE value="Add created text" />
     <MESSAGE value="Revert deno workflow" />
     <MESSAGE value="Upgrade Nodejs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade Nodejs" />
+    <MESSAGE value="settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="settings" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
