@@ -1,4 +1,5 @@
 # ADA Blogs Website
+[Link to website](https://syed-blogs.netlify.app/)
 
 ## Overview
 The ADA Blogs Website is a modern blogging platform designed to showcase innovative web technologies and provide a seamless user experience. Built with cutting-edge tools and frameworks, this project highlights the power of a highly optimized development stack.
