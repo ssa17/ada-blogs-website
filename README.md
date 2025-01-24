@@ -119,19 +119,17 @@ Created solely by myself, Syed
 ### Feature Implementation (25%)
 
 - **Addressed Requirements**: Fully implemented login, authorization, CRUD operations, and user roles.
-- **Evidence**: See `src/features/auth` and `src/features/posts` for implementation details.
-- **Supporting Material**: [Feature Demonstration Video](YouTube-Link), screenshots included below.
+- **Evidence**: See `src/pages/SignIn`, `src/pages/SignUp` and  `src/pages/CreatePost` for implementation details.
 
 ### Testing (25%)
 
 - **Addressed Requirements**: Comprehensive unit tests and integration tests with Vitest.
 - **Evidence**: See `tests` directory for test cases and coverage report.
-- **Supporting Material**: Screenshot of test coverage (>80%).
 
 ### Security Enhancements (15%)
 
 - **Addressed Requirements**: Password hashing, input validation, CSRF protection, and XSS safeguards.
-- **Evidence**: Refer to `src/utils/security.ts` for implementation.
+- **Evidence**: Supabase authentication docs.
 - **Supporting Material**: Configuration in Supabase for authentication security.
 
 ### Code Quality and Refactoring (15%)
