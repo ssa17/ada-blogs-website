@@ -1,13 +1,12 @@
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState, useRef } from "react";
-import { Editor } from '@tinymce/tinymce-react';
-import { useQuery } from "@tanstack/react-query";
-import axios from 'axios';
+import {useForm} from "react-hook-form";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {useNavigate} from "react-router-dom";
+import {supabase} from "@/integrations/supabase/client";
+import {useToast} from "@/hooks/use-toast";
+import {useEffect, useState, useRef} from "react";
+import {Editor} from '@tinymce/tinymce-react';
+import {useQuery} from "@tanstack/react-query";
 
 interface PostForm {
     title: string;
@@ -15,13 +14,13 @@ interface PostForm {
 }
 
 export default function CreatePost() {
-    const { register, handleSubmit, setValue } = useForm<PostForm>();
+    const {register, handleSubmit, setValue} = useForm<PostForm>();
     const navigate = useNavigate();
-    const { toast } = useToast();
+    const {toast} = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
 
-    const { data: editorConfig, isLoading, error } = useQuery({
+    const {data: editorConfig, isLoading, error} = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
             const response = await supabase.functions.invoke('get-tinymce-key');
@@ -42,7 +41,7 @@ export default function CreatePost() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const {data: {session}} = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
@@ -51,44 +50,6 @@ export default function CreatePost() {
         };
         checkAuth();
     }, [navigate]);
-
-    const getOpenAIKey = async () => {
-        const response = await supabase.functions.invoke('get-open-ai-key');
-        if (response.error) {
-            console.error('Error fetching OpenAI key:', response.error);
-            toast({
-                title: "Error",
-                description: "Failed to retrieve OpenAI key. Please try again.",
-                variant: "destructive",
-            });
-            throw new Error('Failed to retrieve OpenAI key');
-        }
-        return response.data.apiKey;
-    };
-
-    const callOpenAI = async (text: string) => {
-        try {
-            const apiKey = await getOpenAIKey();
-            const response = await axios.post('https://api.openai.com/v1/engines/davinci-codex/completions', {
-                prompt: text,
-                max_tokens: 100
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            return response.data.choices[0].text;
-        } catch (error) {
-            console.error("Error calling OpenAI API:", error);
-            toast({
-                title: "Error",
-                description: "Failed to process text with OpenAI. Please try again.",
-                variant: "destructive",
-            });
-            return text;
-        }
-    };
 
     const onSubmit = async (data: PostForm) => {
         if (!userId) {
@@ -101,7 +62,7 @@ export default function CreatePost() {
         }
 
         try {
-            const { error } = await supabase.from("posts").insert({
+            const {error} = await supabase.from("posts").insert({
                 title: data.title,
                 content: data.content,
                 author_id: userId,
@@ -120,14 +81,6 @@ export default function CreatePost() {
                 description: "Failed to create post. Please try again.",
                 variant: "destructive",
             });
-        }
-    };
-
-    const handleProcessText = async () => {
-        if (editorRef.current) {
-            const content = editorRef.current.getContent();
-            const processedContent = await callOpenAI(content);
-            editorRef.current.setContent(processedContent);
         }
     };
 
@@ -153,7 +106,7 @@ export default function CreatePost() {
                     </label>
                     <Input
                         id="title"
-                        {...register("title", { required: true })}
+                        {...register("title", {required: true})}
                         className="w-full"
                         placeholder="Enter your post title"
                     />
@@ -179,13 +132,13 @@ export default function CreatePost() {
                                 'link codesample | removeformat | help',
                             content_style: 'body { font-family:Inter,Arial,sans-serif; font-size:14px }',
                             codesample_languages: [
-                                { text: 'HTML/XML', value: 'markup' },
-                                { text: 'JavaScript', value: 'javascript' },
-                                { text: 'CSS', value: 'css' },
-                                { text: 'Python', value: 'python' },
-                                { text: 'Java', value: 'java' },
-                                { text: 'C', value: 'c' },
-                                { text: 'C++', value: 'cpp' }
+                                {text: 'HTML/XML', value: 'markup'},
+                                {text: 'JavaScript', value: 'javascript'},
+                                {text: 'CSS', value: 'css'},
+                                {text: 'Python', value: 'python'},
+                                {text: 'Java', value: 'java'},
+                                {text: 'C', value: 'c'},
+                                {text: 'C++', value: 'cpp'}
                             ]
                         }}
                         onEditorChange={(content) => {
@@ -193,7 +146,6 @@ export default function CreatePost() {
                         }}
                     />
                 </div>
-                <Button type="button" onClick={handleProcessText} className="w-full md:w-auto">Process Text</Button>
                 <Button type="submit" className="w-full md:w-auto">Create Post</Button>
             </form>
         </div>
