@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {useToast} from "@/hooks/use-toast";
 import {Alert, AlertDescription} from "@/components/ui/alert";
+import {Eye, EyeOff} from "lucide-react";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function SignUp() {
         email: "",
         password: "",
     });
+    const [showPassword, setShowPassword] = useState(false);
 
     const checkUsername = async (username: string) => {
         if (username.length < 3) {
@@ -113,6 +115,10 @@ export default function SignUp() {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="container max-w-md mx-auto mt-8 p-4">
             <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
@@ -144,9 +150,7 @@ export default function SignUp() {
                         }
                     />
                     {formData.username.length >= 3 && (
-                        <p className={`text-sm mt-1 ${
-                            usernameAvailable ? "text-green-600" : "text-red-600"
-                        }`}>
+                        <p className={`text-sm mt-1 ${usernameAvailable ? "text-green-600" : "text-red-600"}`}>
                             {usernameAvailable
                                 ? "Username is available"
                                 : "Username is already taken"}
@@ -171,15 +175,25 @@ export default function SignUp() {
                     <label htmlFor="password" className="block text-sm font-medium mb-1">
                         Password
                     </label>
-                    <Input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                        value={formData.password}
-                        onChange={handleChange}
-                        disabled={loading}
-                    />
+                    <div className="relative">
+                        <Input
+                            id="password"
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            required
+                            value={formData.password}
+                            onChange={handleChange}
+                            disabled={loading}
+                            className="pr-10"
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+                            onClick={togglePasswordVisibility}
+                        >
+                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                    </div>
                 </div>
                 <Button
                     type="submit"

@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {useToast} from "@/hooks/use-toast";
 import {useQueryClient} from "@tanstack/react-query";
+import {Eye, EyeOff} from "lucide-react";
 
 export default function SignIn() {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function SignIn() {
         email: "",
         password: "",
     });
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -55,6 +57,10 @@ export default function SignIn() {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="container max-w-md mx-auto mt-8 p-4">
             <h1 className="text-2xl font-bold mb-6">Sign In</h1>
@@ -77,15 +83,26 @@ export default function SignIn() {
                     <label htmlFor="password" className="block text-sm font-medium mb-1">
                         Password
                     </label>
-                    <Input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                        value={formData.password}
-                        onChange={handleChange}
-                        disabled={loading}
-                    />
+                    <div className="relative">
+                        <Input
+                            id="password"
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            required
+                            value={formData.password}
+                            onChange={handleChange}
+                            disabled={loading}
+                            className="pr-10"
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+                            onClick={togglePasswordVisibility}
+                        >
+                            {showPassword ? <EyeOff className="h-5 w-5" /> :
+                                <Eye className="h-5 w-5" />}
+                        </button>
+                    </div>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "Signing in..." : "Sign In"}
