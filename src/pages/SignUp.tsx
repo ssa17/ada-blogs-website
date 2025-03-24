@@ -6,6 +6,7 @@ import {Input} from "@/components/ui/input";
 import {useToast} from "@/hooks/use-toast";
 import {Alert, AlertDescription} from "@/components/ui/alert";
 import {Eye, EyeOff} from "lucide-react";
+import zxcvbn from "zxcvbn";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -27,19 +28,19 @@ export default function SignUp() {
 
         try {
             const {data, error} = await supabase
-                .from('profiles')
-                .select('username')
-                .eq('username', username)
+                .from("profiles")
+                .select("username")
+                .eq("username", username)
                 .maybeSingle();
 
             if (error) {
-                console.error('Error checking username:', error);
+                console.error("Error checking username:", error);
                 return;
             }
 
             setUsernameAvailable(data === null);
         } catch (error) {
-            console.error('Error checking username:', error);
+            console.error("Error checking username:", error);
         }
     };
 
@@ -50,7 +51,7 @@ export default function SignUp() {
             [name]: value,
         });
 
-        if (name === 'username') {
+        if (name === "username") {
             await checkUsername(value);
         }
     };
@@ -63,6 +64,17 @@ export default function SignUp() {
                 variant: "destructive",
                 title: "Username not available",
                 description: "Please choose a different username.",
+            });
+            return;
+        }
+
+        const passwordStrength = zxcvbn(formData.password);
+
+        if (passwordStrength.score < 3) {
+            toast({
+                variant: "destructive",
+                title: "Weak Password",
+                description: passwordStrength.feedback.suggestions.join(" "),
             });
             return;
         }
@@ -151,9 +163,7 @@ export default function SignUp() {
                     />
                     {formData.username.length >= 3 && (
                         <p className={`text-sm mt-1 ${usernameAvailable ? "text-green-600" : "text-red-600"}`}>
-                            {usernameAvailable
-                                ? "Username is available"
-                                : "Username is already taken"}
+                            {usernameAvailable ? "Username is available" : "Username is already taken"}
                         </p>
                     )}
                 </div>
@@ -195,11 +205,7 @@ export default function SignUp() {
                         </button>
                     </div>
                 </div>
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={loading || !usernameAvailable}
-                >
+                <Button type="submit" className="w-full" disabled={loading || !usernameAvailable}>
                     {loading ? "Signing up..." : "Sign Up"}
                 </Button>
             </form>
