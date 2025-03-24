@@ -106,9 +106,6 @@ export default function CreatePost() {
                 method: 'GET'
             });
 
-            console.log("Key response:", keyResponse);
-            console.log("Key error:", keyError);
-
             if (keyError || !keyResponse || !keyResponse.key) {
                 console.error("API Key retrieval failed:", keyError || "No key found.");
                 throw new Error("Invalid OpenAI API key.");
@@ -133,8 +130,6 @@ export default function CreatePost() {
                     }
                 }
             );
-
-            console.log("OpenAI API Response:", response);
 
             const generatedContent = response.data.choices[0]?.message?.content || "";
 
@@ -184,9 +179,6 @@ export default function CreatePost() {
                 method: 'GET'
             });
 
-            console.log("Key response:", keyResponse);
-            console.log("Key error:", keyError);
-
             if (keyError || !keyResponse || !keyResponse.key) {
                 console.error("API Key retrieval failed:", keyError || "No key found.");
                 throw new Error("Invalid OpenAI API key.");
@@ -211,8 +203,6 @@ export default function CreatePost() {
                     }
                 }
             );
-
-            console.log("OpenAI API Response:", response);
 
             const refactoredContent = response.data.choices[0]?.message?.content || "";
 
