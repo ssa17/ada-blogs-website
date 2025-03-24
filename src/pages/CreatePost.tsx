@@ -1,12 +1,12 @@
-import {useForm} from "react-hook-form";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {useNavigate} from "react-router-dom";
-import {supabase} from "@/integrations/supabase/client";
-import {useToast} from "@/hooks/use-toast";
-import {useEffect, useState, useRef} from "react";
-import {Editor} from '@tinymce/tinymce-react';
-import {useQuery} from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState, useRef } from "react";
+import { Editor } from '@tinymce/tinymce-react';
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 interface PostForm {
@@ -14,16 +14,74 @@ interface PostForm {
     content: string;
 }
 
+const MAX_DAILY_MESSAGES = 5;
+
+async function checkAndUpdateAICount(userId: string): Promise<boolean> {
+    const today = new Date().toISOString().split('T')[0];
+
+    const { data, error } = await supabase
+        .from('ai_message_counts')
+        .select('count')
+        .eq('user_id', userId)
+        .eq('date', today)
+        .single();
+
+    if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching AI message count:', error);
+        return false;
+    }
+
+    const currentCount = data ? data.count : 0;
+
+    if (currentCount >= MAX_DAILY_MESSAGES) {
+        return false;
+    }
+
+    const { error: updateError } = await supabase
+        .from('ai_message_counts')
+        .upsert({
+            user_id: userId,
+            date: today,
+            count: currentCount + 1,
+        });
+
+    if (updateError) {
+        console.error('Error updating AI message count:', updateError);
+        return false;
+    }
+
+    return true;
+}
+
+async function getAICount(userId: string): Promise<number> {
+    const today = new Date().toISOString().split('T')[0];
+
+    const { data, error } = await supabase
+        .from('ai_message_counts')
+        .select('count')
+        .eq('user_id', userId)
+        .eq('date', today)
+        .single();
+
+    if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching AI message count:', error);
+        return 0;
+    }
+
+    return data ? data.count : 0;
+}
+
 export default function CreatePost() {
-    const {register, handleSubmit, setValue} = useForm<PostForm>();
+    const { register, handleSubmit, setValue } = useForm<PostForm>();
     const navigate = useNavigate();
-    const {toast} = useToast();
+    const { toast } = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
     const [aiInput, setAiInput] = useState<string>("");
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
+    const [aiCount, setAiCount] = useState<number>(0);
 
-    const {data: editorConfig, isLoading, error} = useQuery({
+    const { data: editorConfig, isLoading, error } = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
             const response = await supabase.functions.invoke('get-tinymce-key');
@@ -44,11 +102,13 @@ export default function CreatePost() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
                 setUserId(session.user.id);
+                const count = await getAICount(session.user.id);
+                setAiCount(count);
             }
         };
         checkAuth();
@@ -65,7 +125,7 @@ export default function CreatePost() {
         }
 
         try {
-            const {error} = await supabase.from("posts").insert({
+            const { error } = await supabase.from("posts").insert({
                 title: data.title,
                 content: data.content,
                 author_id: userId,
@@ -99,10 +159,20 @@ export default function CreatePost() {
             return;
         }
 
-        setIsGenerating(true); // Disable the button
+        const canProceed = await checkAndUpdateAICount(userId!);
+        if (!canProceed) {
+            toast({
+                title: "Error",
+                description: "Daily AI message limit reached.",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        setIsGenerating(true);
 
         try {
-            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
+            const { data: keyResponse, error: keyError } = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
@@ -111,7 +181,7 @@ export default function CreatePost() {
                 throw new Error("Invalid OpenAI API key.");
             }
 
-            let apiKey = keyResponse.key;
+            const apiKey = keyResponse.key;
 
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -141,6 +211,7 @@ export default function CreatePost() {
                     description: "Content generated and appended successfully!",
                 });
                 setAiInput(""); // Clear the input after successful generation
+                setAiCount(aiCount + 1); // Update the AI count
             } else {
                 toast({
                     title: "Error",
@@ -157,7 +228,7 @@ export default function CreatePost() {
                 variant: "destructive",
             });
         } finally {
-            setIsGenerating(false); // Re-enable the button
+            setIsGenerating(false);
         }
     };
 
@@ -175,7 +246,7 @@ export default function CreatePost() {
         }
 
         try {
-            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
+            const { data: keyResponse, error: keyError } = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
@@ -184,7 +255,7 @@ export default function CreatePost() {
                 throw new Error("Invalid OpenAI API key.");
             }
 
-            let apiKey = keyResponse.key;
+            const apiKey = keyResponse.key;
 
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -244,7 +315,12 @@ export default function CreatePost() {
 
     return (
         <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
-            <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold">Create New Post</h1>
+                <div className="text-sm text-gray-500">
+                    AI messages available {MAX_DAILY_MESSAGES - aiCount}/{MAX_DAILY_MESSAGES}
+                </div>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -252,7 +328,7 @@ export default function CreatePost() {
                     </label>
                     <Input
                         id="title"
-                        {...register("title", {required: true})}
+                        {...register("title", { required: true })}
                         className="w-full"
                         placeholder="Enter your post title"
                     />
@@ -290,7 +366,7 @@ export default function CreatePost() {
                                 placeholder="Enter AI prompt"
                                 value={aiInput}
                                 onChange={(e) => setAiInput(e.target.value)}
-                                className="w-full h-32 p-2 border rounded mb-2 resize-none" // Added h-32 and resize-none
+                                className="w-full h-32 p-2 border rounded mb-2 resize-none"
                             />
                             <Button
                                 type="button"
