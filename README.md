@@ -10,6 +10,7 @@ The ADA Blogs Website is a modern blogging platform designed to showcase innovat
 - **Customizable UI**: Powered by shadcn-ui and Tailwind CSS for rich, flexible user interface components.
 - **Fast Performance**: Developed using Vite for blazing-fast build and development times.
 - **Type Safety**: TypeScript ensures code reliability and maintainability.
+- **AI Integration**: Utilize AI to generate and refactor text for improved content creation.
 
 ## Technologies Used
 This project leverages the following technologies:
