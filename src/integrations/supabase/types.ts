@@ -7,6 +7,31 @@ export type Json =
   | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       posts: {
@@ -49,18 +74,24 @@ export type Database = {
       }
       profiles: {
         Row: {
+          ai_messaage_requests: number
+          ai_messages_remaining: number
           created_at: string
           email: string
           id: string
           username: string
         }
         Insert: {
+          ai_messaage_requests?: number
+          ai_messages_remaining?: number
           created_at?: string
           email: string
           id: string
           username: string
         }
         Update: {
+          ai_messaage_requests?: number
+          ai_messages_remaining?: number
           created_at?: string
           email?: string
           id?: string
@@ -73,7 +104,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_ai_messages_remaining: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
@@ -180,3 +214,4 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
