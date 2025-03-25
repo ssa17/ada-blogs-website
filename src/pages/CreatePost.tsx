@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState, useRef } from "react";
-import { Editor } from '@tinymce/tinymce-react';
-import { useQuery } from "@tanstack/react-query";
+import {useForm} from "react-hook-form";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {useNavigate} from "react-router-dom";
+import {supabase} from "@/integrations/supabase/client";
+import {useToast} from "@/hooks/use-toast";
+import {useEffect, useState, useRef} from "react";
+import {Editor} from '@tinymce/tinymce-react';
+import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 
 interface PostForm {
@@ -15,9 +15,9 @@ interface PostForm {
 }
 
 export default function CreatePost() {
-    const { register, handleSubmit, setValue } = useForm<PostForm>();
+    const {register, handleSubmit, setValue} = useForm<PostForm>();
     const navigate = useNavigate();
-    const { toast } = useToast();
+    const {toast} = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
     const [aiInput, setAiInput] = useState<string>("");
@@ -25,7 +25,7 @@ export default function CreatePost() {
     const [aiMessagesRemaining, setAiMessagesRemaining] = useState<number>(0);
     const [aiMessageRequests, setAiMessageRequests] = useState<number>(0);
 
-    const { data: editorConfig, isLoading, error } = useQuery({
+    const {data: editorConfig, isLoading, error} = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
             const response = await supabase.functions.invoke('get-tinymce-key');
@@ -38,7 +38,7 @@ export default function CreatePost() {
         const fetchUserProfile = async () => {
             if (!userId) return;
 
-            const { data, error } = await supabase
+            const {data, error} = await supabase
                 .from('profiles')
                 .select('ai_messages_remaining')
                 .eq('id', userId)
@@ -61,7 +61,7 @@ export default function CreatePost() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const {data: {session}} = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
@@ -76,7 +76,7 @@ export default function CreatePost() {
         if (!userId) return;
 
         try {
-            const { data, error } = await supabase
+            const {data, error} = await supabase
                 .from('profiles')
                 .update({
                     ai_messages_remaining: aiMessagesRemaining - 1,
@@ -122,7 +122,7 @@ export default function CreatePost() {
         }
 
         try {
-            const { error } = await supabase.from("posts").insert({
+            const {error} = await supabase.from("posts").insert({
                 title: data.title,
                 content: data.content,
                 author_id: userId,
@@ -159,7 +159,7 @@ export default function CreatePost() {
         setIsGenerating(true);
 
         try {
-            const { data: keyResponse, error: keyError } = await supabase.functions.invoke('get-openai-key', {
+            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
@@ -245,7 +245,7 @@ export default function CreatePost() {
         setIsGenerating(true);
 
         try {
-            const { data: keyResponse } = await supabase.functions.invoke('get-openai-key', {
+            const {data: keyResponse} = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
@@ -272,14 +272,14 @@ export default function CreatePost() {
             const refactoredContent = response.data.choices[0]?.message?.content || "";
 
             if (refactoredContent) {
-            editorRef.current.setContent(refactoredContent);
+                editorRef.current.setContent(refactoredContent);
 
-            await updateMessageCounters();
+                await updateMessageCounters();
 
-            toast({
-                title: "Success",
-                description: "Content refactored successfully!",
-            });
+                toast({
+                    title: "Success",
+                    description: "Content refactored successfully!",
+                });
             } else {
                 toast({
                     title: "Error",
@@ -374,7 +374,8 @@ export default function CreatePost() {
                 </div>
                 <div className="flex gap-4">
                     <Button type="submit" className="w-full md:w-auto">Create Post</Button>
-                    <Button type="button" onClick={refactorContent} className="w-full md:w-auto">
+                    <Button type="button" onClick={refactorContent} className="w-full md:w-auto"
+                            disabled={isGenerating}>
                         Refactor with AI
                     </Button>
                 </div>
