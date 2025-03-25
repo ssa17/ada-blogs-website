@@ -1,12 +1,12 @@
-import {useForm} from "react-hook-form";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {useNavigate} from "react-router-dom";
-import {supabase} from "@/integrations/supabase/client";
-import {useToast} from "@/hooks/use-toast";
-import {useEffect, useState, useRef} from "react";
-import {Editor} from '@tinymce/tinymce-react';
-import {useQuery} from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState, useRef } from "react";
+import { Editor } from '@tinymce/tinymce-react';
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 interface PostForm {
@@ -15,15 +15,17 @@ interface PostForm {
 }
 
 export default function CreatePost() {
-    const {register, handleSubmit, setValue} = useForm<PostForm>();
+    const { register, handleSubmit, setValue } = useForm<PostForm>();
     const navigate = useNavigate();
-    const {toast} = useToast();
+    const { toast } = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
     const [aiInput, setAiInput] = useState<string>("");
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
+    const [aiMessagesRemaining, setAiMessagesRemaining] = useState<number>(0);
+    const [aiMessageRequests, setAiMessageRequests] = useState<number>(0);
 
-    const {data: editorConfig, isLoading, error} = useQuery({
+    const { data: editorConfig, isLoading, error } = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
             const response = await supabase.functions.invoke('get-tinymce-key');
@@ -33,18 +35,33 @@ export default function CreatePost() {
     });
 
     useEffect(() => {
-        if (error) {
-            toast({
-                title: "Error",
-                description: "Failed to load the editor. Please try again later.",
-                variant: "destructive",
-            });
-        }
-    }, [error, toast]);
+        const fetchUserProfile = async () => {
+            if (!userId) return;
+
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('ai_messages_remaining')
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                console.error("Failed to fetch profile:", error);
+                toast({
+                    title: "Error",
+                    description: "Failed to fetch profile data.",
+                    variant: "destructive",
+                });
+            } else {
+                setAiMessagesRemaining(data.ai_messages_remaining);
+            }
+        };
+
+        fetchUserProfile();
+    }, [userId, toast]);
 
     useEffect(() => {
         const checkAuth = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
@@ -53,6 +70,46 @@ export default function CreatePost() {
         };
         checkAuth();
     }, [navigate]);
+
+    // Update AI message counters
+    const updateMessageCounters = async () => {
+        if (!userId) return;
+
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .update({
+                    ai_messages_remaining: aiMessagesRemaining - 1,
+                    ai_message_requests: aiMessageRequests + 1
+                })
+                .eq('id', userId)
+                .select();
+
+            if (error) {
+                console.error("Failed to update AI counters:", error);
+                toast({
+                    title: "Error",
+                    description: "Failed to update AI message counters.",
+                    variant: "destructive",
+                });
+            } else {
+                setAiMessagesRemaining(data[0].ai_messages_remaining);
+                setAiMessageRequests(data[0].ai_message_requests);
+                toast({
+                    title: "Success",
+                    description: "AI message counters updated.",
+                });
+            }
+
+        } catch (error) {
+            console.error("Error updating counters:", error);
+            toast({
+                title: "Error",
+                description: "Failed to update AI message counters.",
+                variant: "destructive",
+            });
+        }
+    };
 
     const onSubmit = async (data: PostForm) => {
         if (!userId) {
@@ -65,7 +122,7 @@ export default function CreatePost() {
         }
 
         try {
-            const {error} = await supabase.from("posts").insert({
+            const { error } = await supabase.from("posts").insert({
                 title: data.title,
                 content: data.content,
                 author_id: userId,
@@ -88,30 +145,29 @@ export default function CreatePost() {
     };
 
     const generateAndAppend = async () => {
-        if (!editorRef.current) return;
+        if (!editorRef.current || !aiInput) return;
 
-        if (!aiInput) {
+        if (aiMessagesRemaining <= 0) {
             toast({
                 title: "Error",
-                description: "AI input is empty.",
+                description: "No AI messages remaining.",
                 variant: "destructive",
             });
             return;
         }
 
-        setIsGenerating(true); // Disable the button
+        setIsGenerating(true);
 
         try {
-            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
+            const { data: keyResponse, error: keyError } = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
             if (keyError || !keyResponse || !keyResponse.key) {
-                console.error("API Key retrieval failed:", keyError || "No key found.");
                 throw new Error("Invalid OpenAI API key.");
             }
 
-            let apiKey = keyResponse.key;
+            const apiKey = keyResponse.key;
 
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -136,11 +192,15 @@ export default function CreatePost() {
             if (generatedContent) {
                 const currentContent = editorRef.current.getContent();
                 editorRef.current.setContent(currentContent + generatedContent);
+
+                await updateMessageCounters();
+
                 toast({
                     title: "Success",
                     description: "Content generated and appended successfully!",
                 });
-                setAiInput(""); // Clear the input after successful generation
+
+                setAiInput("");
             } else {
                 toast({
                     title: "Error",
@@ -148,7 +208,6 @@ export default function CreatePost() {
                     variant: "destructive",
                 });
             }
-
         } catch (error) {
             console.error("Error generating content:", error);
             toast({
@@ -157,12 +216,21 @@ export default function CreatePost() {
                 variant: "destructive",
             });
         } finally {
-            setIsGenerating(false); // Re-enable the button
+            setIsGenerating(false);
         }
     };
 
     const refactorContent = async () => {
         if (!editorRef.current) return;
+
+        if (aiMessagesRemaining <= 0) {
+            toast({
+                title: "Error",
+                description: "No AI messages remaining.",
+                variant: "destructive",
+            });
+            return;
+        }
 
         const content = editorRef.current.getContent();
         if (!content) {
@@ -174,17 +242,14 @@ export default function CreatePost() {
             return;
         }
 
+        setIsGenerating(true);
+
         try {
-            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
+            const { data: keyResponse } = await supabase.functions.invoke('get-openai-key', {
                 method: 'GET'
             });
 
-            if (keyError || !keyResponse || !keyResponse.key) {
-                console.error("API Key retrieval failed:", keyError || "No key found.");
-                throw new Error("Invalid OpenAI API key.");
-            }
-
-            let apiKey = keyResponse.key;
+            const apiKey = keyResponse.key;
 
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -207,11 +272,14 @@ export default function CreatePost() {
             const refactoredContent = response.data.choices[0]?.message?.content || "";
 
             if (refactoredContent) {
-                editorRef.current.setContent(refactoredContent);
-                toast({
-                    title: "Success",
-                    description: "Content refactored successfully!",
-                });
+            editorRef.current.setContent(refactoredContent);
+
+            await updateMessageCounters();
+
+            toast({
+                title: "Success",
+                description: "Content refactored successfully!",
+            });
             } else {
                 toast({
                     title: "Error",
@@ -222,11 +290,8 @@ export default function CreatePost() {
 
         } catch (error) {
             console.error("Error refactoring content:", error);
-            toast({
-                title: "Error",
-                description: "Failed to refactor content. Please try again.",
-                variant: "destructive",
-            });
+        } finally {
+            setIsGenerating(false);
         }
     };
 
@@ -244,7 +309,11 @@ export default function CreatePost() {
 
     return (
         <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
-            <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
+            <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">Create New Post</h1>
+                <div className="text-gray-500">AI messages remaining: {aiMessagesRemaining}</div>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -290,7 +359,7 @@ export default function CreatePost() {
                                 placeholder="Enter AI prompt"
                                 value={aiInput}
                                 onChange={(e) => setAiInput(e.target.value)}
-                                className="w-full h-32 p-2 border rounded mb-2 resize-none" // Added h-32 and resize-none
+                                className="w-full h-32 p-2 border rounded mb-2 resize-none"
                             />
                             <Button
                                 type="button"
