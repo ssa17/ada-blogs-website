@@ -11,6 +11,10 @@ The ADA Blogs Website is a modern blogging platform designed to showcase innovat
 - **Fast Performance**: Developed using Vite for blazing-fast build and development times.
 - **Type Safety**: TypeScript ensures code reliability and maintainability.
 - **AI Integration**: Utilize AI to generate and refactor text for improved content creation.
+- **User Authentication**: Sign-up, login, email confirmation, and session management.
+- **Public and Private Access**: View posts without logging in; create/edit posts only if logged in.
+- **Profile Management**: Update username and password, delete account (removes associated posts).
+- **Post Metadata**: Display creation and update timestamps.
 
 ## Technologies Used
 This project leverages the following technologies:
@@ -20,14 +24,6 @@ This project leverages the following technologies:
 - **[React](https://reactjs.org/)**: A library for building interactive and declarative user interfaces.
 - **[shadcn-ui](https://github.com/shadcn/ui)**: A modern UI component library for React applications.
 - **[Tailwind CSS](https://tailwindcss.com/)**: Utility-first CSS framework for creating custom designs quickly.
-
-## Features
-
-- **User Authentication**: Sign-up, login, email confirmation, and session management.
-- **Post Management**: Create, edit, and delete your posts.
-- **Public and Private Access**: View posts without logging in; create/edit posts only if logged in.
-- **Profile Management**: Update username and password, delete account (removes associated posts).
-- **Post Metadata**: Display creation and update timestamps.
 
 ## Getting Started
 ### Prerequisites
