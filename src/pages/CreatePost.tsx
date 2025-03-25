@@ -23,7 +23,6 @@ export default function CreatePost() {
     const [aiInput, setAiInput] = useState<string>("");
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
     const [aiMessagesRemaining, setAiMessagesRemaining] = useState<number>(0);
-    const [aiMessageRequests, setAiMessageRequests] = useState<number>(0);
 
     const {data: editorConfig, isLoading, error} = useQuery({
         queryKey: ['tinymce-key'],
@@ -72,15 +71,37 @@ export default function CreatePost() {
     }, [navigate]);
 
     // Update AI message counters
+    // Update AI message counters
     const updateMessageCounters = async () => {
         if (!userId) return;
 
         try {
+            // Fetch the current ai_message_requests value from the database
+            const {data: profileData, error: fetchError} = await supabase
+                .from('profiles')
+                .select('ai_message_requests, ai_messages_remaining')
+                .eq('id', userId)
+                .single();
+
+            if (fetchError) {
+                console.error("Failed to fetch profile data:", fetchError);
+                toast({
+                    title: "Error",
+                    description: "Failed to fetch profile data.",
+                    variant: "destructive",
+                });
+                return;
+            }
+
+            const currentAiMessageRequests = profileData.ai_message_requests;
+            const currentAiMessagesRemaining = profileData.ai_messages_remaining;
+
+            // Update the database with the new values
             const {data, error} = await supabase
                 .from('profiles')
                 .update({
-                    ai_messages_remaining: aiMessagesRemaining - 1,
-                    ai_message_requests: aiMessageRequests + 1
+                    ai_messages_remaining: currentAiMessagesRemaining - 1,
+                    ai_message_requests: currentAiMessageRequests + 1
                 })
                 .eq('id', userId)
                 .select();
@@ -93,8 +114,6 @@ export default function CreatePost() {
                     variant: "destructive",
                 });
             } else {
-                setAiMessagesRemaining(data[0].ai_messages_remaining);
-                setAiMessageRequests(data[0].ai_message_requests);
                 toast({
                     title: "Success",
                     description: "AI message counters updated.",
