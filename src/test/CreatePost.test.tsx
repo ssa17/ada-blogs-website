@@ -19,7 +19,15 @@ vi.mock("@/integrations/supabase/client", () => ({
       })
     },
     from: vi.fn().mockReturnValue({
-      insert: vi.fn().mockResolvedValue({ data: null, error: null })
+      insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+      select: vi.fn().mockReturnValue({
+        eq: vi.fn().mockReturnValue({
+          single: vi.fn().mockResolvedValue({
+            data: { ai_messages_remaining: 10 },
+            error: null
+          })
+        })
+      })
     }),
     functions: {
       invoke: vi.fn().mockResolvedValue({
