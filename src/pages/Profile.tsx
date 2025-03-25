@@ -60,14 +60,16 @@ export default function Profile() {
                 <h1 className="text-3xl font-bold">Profile Settings</h1>
                 <div className="text-gray-500">
                     AI messages remaining: {profile?.ai_messages_remaining ?? 0}
+                    <br />
+                    Total requests made with AI: {profile?.ai_message_requests ?? 0}
                 </div>
             </div>
 
             <div className="space-y-8">
-                <UsernameSection profile={profile}/>
-                <PasswordSection/>
-                <UserPosts posts={userPosts || []}/>
-                <DangerZone/>
+                <UsernameSection profile={profile} />
+                <PasswordSection />
+                <UserPosts posts={userPosts || []} />
+                <DangerZone />
             </div>
         </div>
     );
