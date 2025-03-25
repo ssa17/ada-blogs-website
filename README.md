@@ -58,7 +58,7 @@ npm run dev
 # or
 yarn dev
 ```
-Access the app at `http://localhost:8000`.
+Access the app at `http://localhost:8080`.
 
 ### Testing
 1. To run the tests:
@@ -93,55 +93,3 @@ Contributions are welcome! Please follow these steps:
 
 Short youtube video tutorial:
 https://youtu.be/6yILEwkuqRA
-
-## Challenges and Solutions
-
-### Challenge: Integrating Supabase Authentication
-
-- **Issue**: Understanding and securely implementing the Supabase authentication flow.
-- **Solution**: Followed Supabase documentation and implemented email confirmation to ensure secure user accounts.
-
-### Challenge: Cascading Deletes
-
-- **Issue**: Deleting user accounts without leaving orphaned posts.
-- **Solution**: Used database triggers in Supabase to cascade deletions, ensuring data integrity.
-
-### Challenge: Automated Testing in CI/CD
-
-- **Issue**: Ensuring reliable automated tests across environments.
-- **Solution**: Configured GitHub Actions with Vitest to run tests on every push, using mock Supabase services for consistency.
-
-## Team Contributions
-
-Created solely by myself, Syed
-
-## Evidence for Marking Criteria
-
-### Feature Implementation (25%)
-
-- **Addressed Requirements**: Fully implemented login, authorization, CRUD operations, and user roles.
-- **Evidence**: See `src/pages/SignIn`, `src/pages/SignUp` and  `src/pages/CreatePost` for implementation details.
-
-### Testing (25%)
-
-- **Addressed Requirements**: Comprehensive unit tests and integration tests with Vitest.
-- **Evidence**: See `tests` directory for test cases and coverage report.
-
-### Security Enhancements (15%)
-
-- **Addressed Requirements**: Password hashing, input validation, CSRF protection, and XSS safeguards.
-- **Evidence**: Supabase authentication docs.
-- **Supporting Material**: Configuration in Supabase for authentication security.
-
-### Code Quality and Refactoring (15%)
-
-- **Addressed Requirements**: Modular structure, meaningful comments, adherence to coding standards.
-- **Evidence**: Refer to `src/components` and `src/pages` for modular implementation.
-- **Supporting Material**: Inline comments in critical areas.
-
-### CI/CD and Git Practices (20%)
-
-- **Addressed Requirements**: Automated testing and deployment with GitHub Actions.
-- **Evidence**: See `.github/workflows` for CI/CD pipeline configuration.
-- **Supporting Material**: Screenshot of successful GitHub Actions runs.
-
