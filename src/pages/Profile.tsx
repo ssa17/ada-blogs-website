@@ -56,7 +56,12 @@ export default function Profile() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8">Profile Settings</h1>
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold">Profile Settings</h1>
+                <div className="text-gray-500">
+                    AI messages remaining: {profile?.ai_messages_remaining ?? 0}
+                </div>
+            </div>
 
             <div className="space-y-8">
                 <UsernameSection profile={profile}/>
