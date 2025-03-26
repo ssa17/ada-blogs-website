@@ -90,7 +90,7 @@ export default function SignUp() {
                     data: {
                         username: formData.username,
                     },
-                    emailRedirectTo: "https://syed-blogs.netlify.app/email/confirmed",
+                    emailRedirectTo: "https://syed-blogs.vercel.app/email/confirmed",
                 },
             });
 
