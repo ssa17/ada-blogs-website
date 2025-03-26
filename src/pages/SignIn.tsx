@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import {supabase} from "@/integrations/supabase/client";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -103,6 +103,11 @@ export default function SignIn() {
                                 <Eye className="h-5 w-5" />}
                         </button>
                     </div>
+                </div>
+                <div className="text-left">
+                    <Link to="/forgotPassword" className="text-sm text-blue-600 hover:underline">
+                        Forgot Password?
+                    </Link>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "Signing in..." : "Sign In"}

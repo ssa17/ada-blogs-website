@@ -24,7 +24,7 @@ export default function EmailConfirmed() {
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
                 <h1 className="text-2xl font-bold text-green-600">Email Confirmed!</h1>
                 <p className="mt-4 text-gray-700">
-                    Your email has been successfully confirmed. You can now proceed to log in or explore your account.
+                    Your email has been successfully confirmed. You can now proceed to log in and explore your account.
                 </p>
                 <div className="mt-6">
                     <Button
