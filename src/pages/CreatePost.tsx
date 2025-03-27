@@ -1,12 +1,11 @@
-import {useForm} from "react-hook-form";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {useNavigate} from "react-router-dom";
-import {supabase} from "@/integrations/supabase/client";
-import {useToast} from "@/hooks/use-toast";
-import {useEffect, useState, useRef} from "react";
-import {Editor} from '@tinymce/tinymce-react';
-import {useQuery} from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState, useRef } from "react";
+import { Editor } from '@tinymce/tinymce-react';
 import axios from "axios";
 
 interface PostForm {
@@ -14,30 +13,24 @@ interface PostForm {
     content: string;
 }
 
+const tinymceApiKey = import.meta.env.VITE_TINYMCE_KEY;
+const openAiKey = import.meta.env.VITE_OPEN_AI_KEY;
+
 export default function CreatePost() {
-    const {register, handleSubmit, setValue} = useForm<PostForm>();
+    const { register, handleSubmit, setValue } = useForm<PostForm>();
     const navigate = useNavigate();
-    const {toast} = useToast();
+    const { toast } = useToast();
     const [userId, setUserId] = useState<string | null>(null);
     const editorRef = useRef<any>(null);
     const [aiInput, setAiInput] = useState<string>("");
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
     const [aiMessagesRemaining, setAiMessagesRemaining] = useState<number>(0);
 
-    const {data: editorConfig, isLoading, error} = useQuery({
-        queryKey: ['tinymce-key'],
-        queryFn: async () => {
-            const response = await supabase.functions.invoke('get-tinymce-key');
-            if (response.error) throw response.error;
-            return response.data;
-        },
-    });
-
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (!userId) return;
 
-            const {data, error} = await supabase
+            const { data, error } = await supabase
                 .from('profiles')
                 .select('ai_messages_remaining')
                 .eq('id', userId)
@@ -60,7 +53,7 @@ export default function CreatePost() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const {data: {session}} = await supabase.auth.getSession();
+            const { data: { session } } = await supabase.auth.getSession();
             if (!session) {
                 navigate("/signin");
             } else {
@@ -70,14 +63,11 @@ export default function CreatePost() {
         checkAuth();
     }, [navigate]);
 
-    // Update AI message counters
-    // Update AI message counters
     const updateMessageCounters = async () => {
         if (!userId) return;
 
         try {
-            // Fetch the current ai_message_requests value from the database
-            const {data: profileData, error: fetchError} = await supabase
+            const { data: profileData, error: fetchError } = await supabase
                 .from('profiles')
                 .select('ai_message_requests, ai_messages_remaining')
                 .eq('id', userId)
@@ -96,8 +86,7 @@ export default function CreatePost() {
             const currentAiMessageRequests = profileData.ai_message_requests;
             const currentAiMessagesRemaining = profileData.ai_messages_remaining;
 
-            // Update the database with the new values
-            const {data, error} = await supabase
+            const { data, error } = await supabase
                 .from('profiles')
                 .update({
                     ai_messages_remaining: currentAiMessagesRemaining - 1,
@@ -141,7 +130,7 @@ export default function CreatePost() {
         }
 
         try {
-            const {error} = await supabase.from("posts").insert({
+            const { error } = await supabase.from("posts").insert({
                 title: data.title,
                 content: data.content,
                 author_id: userId,
@@ -178,16 +167,6 @@ export default function CreatePost() {
         setIsGenerating(true);
 
         try {
-            const {data: keyResponse, error: keyError} = await supabase.functions.invoke('get-openai-key', {
-                method: 'GET'
-            });
-
-            if (keyError || !keyResponse || !keyResponse.key) {
-                throw new Error("Invalid OpenAI API key.");
-            }
-
-            const apiKey = keyResponse.key;
-
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
@@ -200,7 +179,7 @@ export default function CreatePost() {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${apiKey}`,
+                        Authorization: `Bearer ${openAiKey}`,
                         "Content-Type": "application/json"
                     }
                 }
@@ -264,12 +243,6 @@ export default function CreatePost() {
         setIsGenerating(true);
 
         try {
-            const {data: keyResponse} = await supabase.functions.invoke('get-openai-key', {
-                method: 'GET'
-            });
-
-            const apiKey = keyResponse.key;
-
             const response = await axios.post(
                 "https://api.openai.com/v1/chat/completions",
                 {
@@ -282,7 +255,7 @@ export default function CreatePost() {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${apiKey}`,
+                        Authorization: `Bearer ${openAiKey}`,
                         "Content-Type": "application/json"
                     }
                 }
@@ -314,18 +287,6 @@ export default function CreatePost() {
         }
     };
 
-    if (isLoading) {
-        return <div className="max-w-5xl mx-auto mt-8 p-4">Loading editor...</div>;
-    }
-
-    if (error || !editorConfig?.apiKey) {
-        return (
-            <div className="max-w-5xl mx-auto mt-8 p-4">
-                <div className="text-red-500">Failed to load editor. Please try again later.</div>
-            </div>
-        );
-    }
-
     return (
         <div className="max-w-5xl mx-auto mt-8 px-4 md:px-6">
             <div className="flex justify-between items-center mb-4">
@@ -340,7 +301,7 @@ export default function CreatePost() {
                     </label>
                     <Input
                         id="title"
-                        {...register("title", {required: true})}
+                        {...register("title", { required: true })}
                         className="w-full"
                         placeholder="Enter your post title"
                     />
@@ -352,7 +313,7 @@ export default function CreatePost() {
                     <div className="flex">
                         <div className="w-3/4">
                             <Editor
-                                apiKey={editorConfig.apiKey}
+                                apiKey={tinymceApiKey}
                                 onInit={(evt, editor) => editorRef.current = editor}
                                 init={{
                                     height: 400,
