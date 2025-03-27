@@ -5,3 +5,5 @@
 **/*.iml
 
 **/node_modules
+
+.env
