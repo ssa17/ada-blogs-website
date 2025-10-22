@@ -49,7 +49,7 @@
     "@tinymce/tinymce-react": "^5.1.1",
     "@types/dompurify": "^3.2.0",
     "@vitest/ui": "^2.1.8",
-    "axios": "^1.8.4",
+    "axios": "^1.12.0",
     "bun": "^1.1.43",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
