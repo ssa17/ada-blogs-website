@@ -1,0 +1,23 @@
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/generate"
+  to = "/.netlify/functions/generate"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/keys"
+  to = "/.netlify/functions/keys"
+  status = 200
+  force = true
+
+# Single page app fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
