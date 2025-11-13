@@ -27,7 +27,7 @@ export default function CreatePost() {
     useEffect(() => {
         const fetchKeys = async () => {
             try {
-                const response = await axios.post("/api/keys");
+                const response = await axios.post("/.netlify/functions/keys");
                 setTinymceKey(response.data.tinymceKey);
             } catch (error) {
                 console.error("Error fetching keys:", error);
@@ -153,7 +153,7 @@ export default function CreatePost() {
         setIsGenerating(true);
 
         try {
-            const response = await axios.post("/api/generate", {
+            const response = await axios.post("/.netlify/functions/generate", {
                 taskType: "generate",
                 messages: [{ role: "user", content: aiInput }]
             });
