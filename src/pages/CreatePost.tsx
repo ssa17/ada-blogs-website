@@ -27,7 +27,10 @@ export default function CreatePost() {
     useEffect(() => {
         const fetchKeys = async () => {
             try {
-                const response = await axios.post("/api/keys");
+                const response = await axios.post("/api/generate", {
+                    taskType: "generate",
+                    messages: []
+                });
                 setTinymceKey(response.data.tinymceKey);
             } catch (error) {
                 console.error("Error fetching keys:", error);

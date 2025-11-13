@@ -7,7 +7,6 @@ import {useToast} from "@/hooks/use-toast";
 import {useEffect, useState, useRef} from "react";
 import {Editor} from '@tinymce/tinymce-react';
 import {useQuery} from "@tanstack/react-query";
-import axios from "axios";
 
 interface PostForm {
     title: string;
@@ -26,8 +25,9 @@ export default function EditPost() {
     const {data: editorConfig, isLoading: isEditorLoading, error: editorError} = useQuery({
         queryKey: ['tinymce-key'],
         queryFn: async () => {
-            const response = await axios.post("/api/keys");
-            return { apiKey: response.data.tinymceKey };
+            const response = await supabase.functions.invoke('get-tinymce-key');
+            if (response.error) throw response.error;
+            return response.data;
         },
     });
 
