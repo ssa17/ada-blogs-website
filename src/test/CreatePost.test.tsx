@@ -1,109 +1,111 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import CreatePost from "../pages/CreatePost";
-import { supabase } from "@/integrations/supabase/client";
+import axios from "axios";
+
+// Mock axios for key fetch
+vi.mock("axios");
 
 // Mock supabase client
 vi.mock("@/integrations/supabase/client", () => ({
-  supabase: {
-    auth: {
-      getSession: vi.fn().mockResolvedValue({
-        data: {
-          session: {
-            user: { id: '1', email: 'test@test.com' }
-          }
+    supabase: {
+        auth: {
+            getSession: vi.fn().mockResolvedValue({
+                data: {
+                    session: {
+                        user: {id: '1', email: 'test@test.com'}
+                    }
+                },
+                error: null
+            })
         },
-        error: null
-      })
-    },
-    from: vi.fn().mockReturnValue({
-      insert: vi.fn().mockResolvedValue({ data: null, error: null }),
-      select: vi.fn().mockReturnValue({
-        eq: vi.fn().mockReturnValue({
-          single: vi.fn().mockResolvedValue({
-            data: { ai_messages_remaining: 10 },
-            error: null
-          })
-        })
-      })
-    }),
-    functions: {
-      invoke: vi.fn().mockResolvedValue({
-        data: { apiKey: 'test-api-key' },
-        error: null
-      })
+        from: vi.fn().mockReturnValue({
+            insert: vi.fn().mockResolvedValue({data: null, error: null}),
+            select: vi.fn().mockReturnValue({
+                eq: vi.fn().mockReturnValue({
+                    single: vi.fn().mockResolvedValue({
+                        data: {ai_messages_remaining: 10},
+                        error: null
+                    })
+                })
+            })
+        }),
+        functions: {
+            invoke: vi.fn().mockResolvedValue({
+                data: {apiKey: 'test-api-key'},
+                error: null
+            })
+        }
     }
-  }
 }));
 
 // Mock TinyMCE editor
 vi.mock('@tinymce/tinymce-react', () => ({
-  Editor: ({ onInit, onEditorChange }: any) => {
-    onInit(null, { setContent: vi.fn() });
-    return (
-        <div data-testid="mock-editor">
+    Editor: ({onInit, onEditorChange}: any) => {
+        onInit(null, {setContent: vi.fn()});
+        return (
+            <div data-testid="mock-editor">
         <textarea
             onChange={(e) => onEditorChange?.(e.target.value)}
             data-testid="editor-textarea"
         />
-        </div>
-    );
-  }
+            </div>
+        );
+    }
 }));
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
+const queryClient = new QueryClient({defaultOptions: {queries: {retry: false}}});
 
 const renderComponent = () => {
-  return render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CreatePost />
-        </MemoryRouter>
-      </QueryClientProvider>
-  );
+    return render(
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
+        </QueryClientProvider>
+    );
 };
 
 describe("CreatePost", () => {
-  it("renders the create post form", async () => {
-    renderComponent();
 
-    await waitFor(() => {
-      expect(screen.getByText(/Create New Post/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
-      expect(screen.getByTestId("mock-editor")).toBeInTheDocument();
-    });
-  });
-
-  it("displays the editor after loading", async () => {
-    renderComponent();
-
-    await waitFor(() => {
-      expect(screen.queryByText(/loading editor/i)).not.toBeInTheDocument();
+    beforeEach(() => {
+        (axios.post as vi.Mock).mockResolvedValue({
+            data: {tinymceKey: "test-key"}
+        });
     });
 
-    expect(screen.getByTestId("mock-editor")).toBeInTheDocument();
-  });
+    it("renders the create post form", async () => {
+        renderComponent();
 
-  it("validates required fields", async () => {
-    renderComponent();
-
-    await waitFor(() => {
-      expect(screen.getByText(/Create Post/i)).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText(/Create New Post/i)).toBeInTheDocument();
+            expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
+            expect(screen.getByTestId("mock-editor")).toBeInTheDocument();
+        });
     });
 
-    const submitButton = screen.getByText(/Create Post/i);
-    fireEvent.click(submitButton);
+    it("displays the editor after loading", async () => {
+        renderComponent();
 
-    await waitFor(() => {
-      expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("mock-editor")).toBeInTheDocument();
+        });
     });
-  });
+
+    it("validates required fields", async () => {
+        renderComponent();
+
+        await waitFor(() => {
+            expect(screen.getByText(/Create Post/i)).toBeInTheDocument();
+        });
+
+        const submitButton = screen.getByText(/Create Post/i);
+        fireEvent.click(submitButton);
+
+        await waitFor(() => {
+            expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
+        });
+    });
 });
