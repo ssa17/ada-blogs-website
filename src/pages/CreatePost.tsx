@@ -272,27 +272,28 @@ export default function CreatePost() {
                     </label>
                     <div className="flex">
                         <div className="w-3/4">
-                        <Editor
-                            apiKey={tinymceKey}
-                            onInit={(evt, editor) => editorRef.current = editor}
-                            init={{
-                                height: 400,
-                                menubar: false,
-                                plugins: [
-                                    'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
-                                    'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
-                                    'insertdatetime', 'table', 'codesample', 'help', 'wordcount'
-                                ],
-                                toolbar: 'undo redo | blocks | ' +
-                                    'bold italic underline forecolor | alignleft aligncenter alignright | ' +
-                                    'bullist numlist outdent indent | ' +
-                                    'link codesample | removeformat | help',
-                                content_style: 'body { font-family:Inter,Arial,sans-serif; font-size:14px }',
-                            }}
-                                onEditorChange={(content) => {
-                                    setValue("content", content);
-                                }}
-                        />
+                            {tinymceKey && (
+                                <Editor
+                                    apiKey={tinymceKey}
+                                    onInit={(evt, editor) => editorRef.current = editor}
+                                    init={{
+                                        height: 400,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
+                                            'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
+                                            'insertdatetime', 'table', 'codesample', 'help', 'wordcount'
+                                        ],
+                                        toolbar: 'undo redo | blocks | bold italic underline forecolor | ' +
+                                            'alignleft aligncenter alignright | bullist numlist outdent indent | ' +
+                                            'link codesample | removeformat | help',
+                                        content_style: 'body { font-family:Inter,Arial,sans-serif; font-size:14px }',
+                                    }}
+                                    onEditorChange={(content) => {
+                                        setValue("content", content);
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className="w-1/4 pl-2">
                             <textarea
