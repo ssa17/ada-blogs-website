@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from "vitest";
 import CreatePost from "../pages/CreatePost";
 import axios from "axios";
 
@@ -71,7 +71,7 @@ const renderComponent = () => {
 describe("CreatePost", () => {
 
     beforeEach(() => {
-        (axios.post as vi.Mock).mockResolvedValue({
+        vi.mocked(axios.post).mockResolvedValue({
             data: {tinymceKey: "test-key"}
         });
     });
