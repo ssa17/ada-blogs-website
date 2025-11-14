@@ -259,17 +259,18 @@ export default function CreatePost() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="post-title" className="block text-sm font-medium text-gray-700">
                         Title
                     </label>
                     <Input
+                        id="post-title"
                         {...register("title", { required: true })}
                         placeholder="Enter your post title"
                     />
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="post-content" className="block text-sm font-medium text-gray-700">
                         Content
                     </label>
 
@@ -277,6 +278,7 @@ export default function CreatePost() {
                         <div className="w-3/4">
                             {tinymceKey && (
                                 <Editor
+                                    id="post-content"
                                     apiKey={tinymceKey}
                                     onInit={(evt, editor) => (editorRef.current = editor)}
                                     init={{
