@@ -1,3 +1,6 @@
+const MAX_MESSAGES = 10;
+const MAX_MESSAGE_LENGTH = 10000;
+const VALID_ROLES = new Set(["user", "assistant"]);
 
 exports.handler = async function(event) {
   if (event.httpMethod !== "POST") {
@@ -9,15 +12,11 @@ exports.handler = async function(event) {
   }
 
   const OPENAI_KEY = process.env.OPENAI_KEY || process.env.OPENAI_API_KEY;
-  const TINYMCE_KEY = process.env.TINYMCE_KEY || process.env.TINYMCE_API_KEY;
-  const missing = [];
-  if (!OPENAI_KEY) missing.push("OPENAI_KEY or OPENAI_API_KEY");
-  if (!TINYMCE_KEY) missing.push("TINYMCE_KEY or TINYMCE_API_KEY");
-  if (missing.length) {
+  if (!OPENAI_KEY) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: `Missing env vars: ${missing.join(", ")}` })
+      body: JSON.stringify({ error: "Missing env var: OPENAI_KEY" })
     };
   }
 
@@ -37,6 +36,47 @@ exports.handler = async function(event) {
       };
     }
 
+    // Validate messages array
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "messages must be a non-empty array" })
+      };
+    }
+
+    if (messages.length > MAX_MESSAGES) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: `Too many messages (max ${MAX_MESSAGES})` })
+      };
+    }
+
+    for (const msg of messages) {
+      if (!msg || typeof msg !== "object") {
+        return {
+          statusCode: 400,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ error: "Each message must be an object" })
+        };
+      }
+      if (!VALID_ROLES.has(msg.role)) {
+        return {
+          statusCode: 400,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ error: "Invalid message role" })
+        };
+      }
+      if (typeof msg.content !== "string" || msg.content.length > MAX_MESSAGE_LENGTH) {
+        return {
+          statusCode: 400,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ error: `Message content must be a string of at most ${MAX_MESSAGE_LENGTH} characters` })
+        };
+      }
+    }
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -45,7 +85,7 @@ exports.handler = async function(event) {
       },
       body: JSON.stringify({
         model: "gpt-4o",
-        messages: [{ role: "system", content: systemMessage }, ...(messages || [])],
+        messages: [{ role: "system", content: systemMessage }, ...messages],
         max_tokens: 2000
       })
     });
@@ -64,10 +104,7 @@ exports.handler = async function(event) {
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...data,
-        tinymceKey: TINYMCE_KEY
-      })
+      body: JSON.stringify(data)
     };
   } catch (error) {
     console.error("API error:", error);

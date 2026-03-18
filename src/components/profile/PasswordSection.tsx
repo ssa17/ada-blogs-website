@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/button";
 import {useToast} from "@/hooks/use-toast";
 import {supabase} from "@/integrations/supabase/client";
 import {Eye, EyeOff} from "lucide-react";
+import zxcvbn from "zxcvbn";
 
 export function PasswordSection() {
     const {toast} = useToast();
@@ -21,6 +22,16 @@ export function PasswordSection() {
                 variant: "destructive",
                 title: "Error",
                 description: "New passwords do not match.",
+            });
+            return;
+        }
+
+        const passwordStrength = zxcvbn(newPassword);
+        if (passwordStrength.score < 3) {
+            toast({
+                variant: "destructive",
+                title: "Weak Password",
+                description: passwordStrength.feedback.suggestions.join(" ") || "Please choose a stronger password.",
             });
             return;
         }

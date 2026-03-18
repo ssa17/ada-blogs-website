@@ -14,18 +14,40 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
+    // Verify the caller's JWT before doing anything privileged
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Missing authorization header' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
+      )
+    }
+
+    // Use the anon client to verify the caller's token
+    const supabaseUserClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      {
+        global: { headers: { Authorization: authHeader } },
+        auth: { autoRefreshToken: false, persistSession: false }
       }
     )
 
-    // Get the user ID from the request
+    const { data: { user: callerUser }, error: userError } = await supabaseUserClient.auth.getUser()
+    if (userError || !callerUser) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // Get the user ID from the request body
     const { user_id } = await req.json()
     if (!user_id) {
       return new Response(
@@ -37,10 +59,32 @@ serve(async (req) => {
       )
     }
 
+    // Ensure the caller can only delete their own account
+    if (callerUser.id !== user_id) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden: you can only delete your own account' }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    )
+
     console.log('Attempting to delete user:', user_id)
 
     // Delete the user from Supabase Auth
-    const { error: deleteError } = await supabaseClient.auth.admin.deleteUser(
+    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(
       user_id
     )
 
