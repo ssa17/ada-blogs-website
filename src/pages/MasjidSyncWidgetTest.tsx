@@ -7,6 +7,7 @@ const SCRIPT_ELEMENT_ID = "masjidsync-widget-loader";
 const DEFAULT_TEST_PAGE_ORIGIN = "https://syed-blogs.netlify.app";
 
 type WidgetMode = "today" | "month";
+type WidgetLayout = "full" | "compact";
 
 type WidgetVariantDefinition = {
   key: string;
@@ -14,7 +15,7 @@ type WidgetVariantDefinition = {
   description: string;
   mode: WidgetMode;
   showTitle: boolean;
-  showLink: boolean;
+  layout: WidgetLayout;
 };
 
 type WidgetVariant = WidgetVariantDefinition & {
@@ -38,71 +39,55 @@ function normalizePreview(input: string | null): boolean {
 
 const TODAY_VARIANTS: WidgetVariantDefinition[] = [
   {
-    key: "today-standard",
-    label: "Today - standard",
-    description: "Default day card with both the masjid title and MasjidSync link visible.",
+    key: "today-with-title",
+    label: "Today - with masjid info",
+    description: "Daily card with the masjid name and address above the prayer times.",
     mode: "today",
     showTitle: true,
-    showLink: true,
+    layout: "full",
   },
   {
-    key: "today-link-only",
-    label: "Today - link only",
-    description: "Compact daily card with the title hidden but the powered-by link still available.",
+    key: "today-without-title",
+    label: "Today - without masjid info",
+    description: "Daily card without the title block. The powered-by footer still stays visible.",
     mode: "today",
     showTitle: false,
-    showLink: true,
-  },
-  {
-    key: "today-title-only",
-    label: "Today - title only",
-    description: "Daily card that keeps the masjid name visible but hides the outbound footer link.",
-    mode: "today",
-    showTitle: true,
-    showLink: false,
-  },
-  {
-    key: "today-minimal",
-    label: "Today - minimal",
-    description: "Smallest daily variant with both title and footer link hidden.",
-    mode: "today",
-    showTitle: false,
-    showLink: false,
+    layout: "full",
   },
 ];
 
 const MONTH_VARIANTS: WidgetVariantDefinition[] = [
   {
-    key: "month-standard",
-    label: "Month - standard",
-    description: "Full monthly timetable with both the masjid title and MasjidSync link visible.",
+    key: "month-full-with-title",
+    label: "Month - full with masjid info",
+    description: "Full-height monthly timetable with the masjid info header.",
     mode: "month",
     showTitle: true,
-    showLink: true,
+    layout: "full",
   },
   {
-    key: "month-link-only",
-    label: "Month - link only",
-    description: "Monthly timetable with the title hidden but the footer link still available.",
+    key: "month-full-without-title",
+    label: "Month - full without masjid info",
+    description: "Full-height monthly timetable without the title block.",
     mode: "month",
     showTitle: false,
-    showLink: true,
+    layout: "full",
   },
   {
-    key: "month-title-only",
-    label: "Month - title only",
-    description: "Monthly timetable with the title visible and the footer link removed.",
+    key: "month-compact-with-title",
+    label: "Month - compact with masjid info",
+    description: "Compact monthly timetable with an internal scroll area for the month rows.",
     mode: "month",
     showTitle: true,
-    showLink: false,
+    layout: "compact",
   },
   {
-    key: "month-minimal",
-    label: "Month - minimal",
-    description: "Most compact monthly timetable with both title and link hidden.",
+    key: "month-compact-without-title",
+    label: "Month - compact without masjid info",
+    description: "Most compact month option, keeping only the table and the powered-by footer.",
     mode: "month",
     showTitle: false,
-    showLink: false,
+    layout: "compact",
   },
 ];
 
@@ -119,7 +104,7 @@ function normalizeBaseUrl(input: string | null): string {
 function buildWidgetUrl(
   baseUrl: string,
   masjidId: string,
-  options: Pick<WidgetVariantDefinition, "mode" | "showTitle" | "showLink">,
+  options: Pick<WidgetVariantDefinition, "mode" | "showTitle" | "layout">,
   previewEnabled: boolean,
 ): string {
   const url = new URL(`${baseUrl}/widget/masjid/${encodeURIComponent(masjidId)}`);
@@ -129,8 +114,8 @@ function buildWidgetUrl(
     url.searchParams.set("title", "0");
   }
 
-  if (!options.showLink) {
-    url.searchParams.set("link", "0");
+  if (options.mode === "month" && options.layout === "compact") {
+    url.searchParams.set("layout", "compact");
   }
 
   if (previewEnabled) {
@@ -140,8 +125,12 @@ function buildWidgetUrl(
   return url.toString();
 }
 
-function getDefaultHeight(mode: WidgetMode): string {
-  return mode === "month" ? "760px" : "520px";
+function getDefaultHeight(mode: WidgetMode, layout: WidgetLayout): string {
+  if (mode === "month") {
+    return layout === "compact" ? "620px" : "760px";
+  }
+
+  return "520px";
 }
 
 function buildHarnessUrl(
@@ -241,7 +230,7 @@ export default function MasjidSyncWidgetTest() {
           This page embeds the MasjidSync widget for masjid <span className="font-mono text-foreground">{masjidId}</span> so you can test it on a public Netlify site. By default it points at <span className="font-mono text-foreground">{baseUrl}</span>, and you can override that with <span className="font-mono text-foreground">?baseUrl=...</span> if you want to test a deploy preview.
         </p>
         <p className="max-w-3xl text-sm text-muted-foreground">
-          Every supported variant is rendered below: standard, link-only, title-only, and minimal, for both the today and month modes. This harness now defaults to the same public route used by copied snippets. Use the preview override URL below when you need to render a hidden masjid for admin testing.
+          Every supported variant is rendered below: today with or without masjid info, plus month widgets in both full and compact layouts. The powered-by footer stays on in every case. This harness now defaults to the same public route used by copied snippets. Use the preview override URL below when you need to render a hidden masjid for admin testing.
         </p>
       </div>
 
@@ -303,7 +292,7 @@ export default function MasjidSyncWidgetTest() {
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">Today mode variants</h2>
           <p className="text-sm text-muted-foreground">
-            These phone-width frames are the quickest way to compare how the day card behaves across all supported title and link combinations.
+            These phone-width frames compare the two supported daily options: with the masjid info header or without it.
           </p>
         </div>
         <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
@@ -323,7 +312,7 @@ export default function MasjidSyncWidgetTest() {
                     title={variant.label}
                     loading="lazy"
                     data-masjidsync-widget
-                    style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode), display: "block" }}
+                    style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode, variant.layout), display: "block" }}
                     referrerPolicy="strict-origin-when-cross-origin"
                   />
                 </div>
@@ -337,7 +326,7 @@ export default function MasjidSyncWidgetTest() {
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">Month mode variants</h2>
           <p className="text-sm text-muted-foreground">
-            These full-width timetable embeds cover the same toggle combinations, with extra attention on auto-height and avoiding nested scrolling.
+            These monthly embeds cover both title options and both layout options. Compact month variants keep the timetable rows scrollable inside the iframe.
           </p>
         </div>
         <div className="grid gap-6">
@@ -356,7 +345,7 @@ export default function MasjidSyncWidgetTest() {
                   title={variant.label}
                   loading="lazy"
                   data-masjidsync-widget
-                  style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode), display: "block" }}
+                  style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode, variant.layout), display: "block" }}
                   referrerPolicy="strict-origin-when-cross-origin"
                 />
               </div>
