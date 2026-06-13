@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const DEFAULT_BASE_URL = "https://masjidsync.co.uk";
-const DEFAULT_MASJID_ID = "13341df1-d6b7-411d-9d4c-9811171bc111";
+const DEFAULT_MASJID_ID = "5b0e4d1b-6f58-4526-a672-374d7b496baf";
 const SCRIPT_ELEMENT_ID = "masjidsync-widget-loader";
 const DEFAULT_TEST_PAGE_ORIGIN = "https://syed-blogs.netlify.app";
 
@@ -306,7 +306,7 @@ export default function MasjidSyncWidgetTest() {
             These phone-width frames are the quickest way to compare how the day card behaves across all supported title and link combinations.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
           {todayVariants.map((variant) => (
             <article key={variant.key} className="space-y-3 rounded-2xl border bg-card p-4 shadow-sm">
               <div className="space-y-1">
@@ -316,8 +316,8 @@ export default function MasjidSyncWidgetTest() {
                   Open widget URL
                 </a>
               </div>
-              <div className="rounded-[2rem] border bg-muted/20 p-3 shadow-inner">
-                <div className="mx-auto w-full max-w-[320px] overflow-hidden rounded-[1.5rem] border bg-background shadow-lg">
+              <div className="overflow-x-auto rounded-[2rem] border bg-muted/20 p-3 shadow-inner">
+                <div className="mx-auto w-[320px] min-w-[320px] overflow-hidden rounded-[1.5rem] border bg-background shadow-lg">
                   <iframe
                     src={variant.url}
                     title={variant.label}
