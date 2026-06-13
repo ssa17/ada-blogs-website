@@ -292,10 +292,10 @@ export default function MasjidSyncWidgetTest() {
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">Today mode variants</h2>
           <p className="text-sm text-muted-foreground">
-            These phone-width frames compare the two supported daily options: with the masjid info header or without it.
+            These daily embeds are rendered as full-width blocks (one per row) to simulate how a copied widget snippet is usually placed in a page builder or article body.
           </p>
         </div>
-        <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+        <div className="space-y-6">
           {todayVariants.map((variant) => (
             <article key={variant.key} className="space-y-3 rounded-2xl border bg-card p-4 shadow-sm">
               <div className="space-y-1">
@@ -305,17 +305,15 @@ export default function MasjidSyncWidgetTest() {
                   Open widget URL
                 </a>
               </div>
-              <div className="overflow-x-auto rounded-[2rem] border bg-muted/20 p-3 shadow-inner">
-                <div className="mx-auto w-[320px] min-w-[320px] overflow-hidden rounded-[1.5rem] border bg-background shadow-lg">
-                  <iframe
-                    src={variant.url}
-                    title={variant.label}
-                    loading="lazy"
-                    data-masjidsync-widget
-                    style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode, variant.layout), display: "block" }}
-                    referrerPolicy="strict-origin-when-cross-origin"
-                  />
-                </div>
+              <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+                <iframe
+                  src={variant.url}
+                  title={variant.label}
+                  loading="lazy"
+                  data-masjidsync-widget
+                  style={{ width: "100%", border: 0, overflow: "hidden", minHeight: getDefaultHeight(variant.mode, variant.layout), display: "block" }}
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </div>
             </article>
           ))}
