@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import EmailConfirmed from "@/pages/EmailConfirmed.tsx";
 import ForgotPassword from "@/pages/ForgotPassword.tsx";
 import PasswordReset from "@/pages/PasswordReset.tsx";
+import MasjidSyncWidgetTest from "@/pages/MasjidSyncWidgetTest.tsx";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/email/confirmed" element={<EmailConfirmed />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<PasswordReset />} />
+              <Route path="/masjidsync-widget-test" element={<MasjidSyncWidgetTest />} />
               {/* Catch-All Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
