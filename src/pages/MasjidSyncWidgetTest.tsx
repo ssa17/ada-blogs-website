@@ -292,7 +292,7 @@ export default function MasjidSyncWidgetTest() {
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">Today mode variants</h2>
           <p className="text-sm text-muted-foreground">
-            These daily embeds are rendered as full-width blocks (one per row) to simulate how a copied widget snippet is usually placed in a page builder or article body.
+            These daily embeds are rendered as normal full-width host blocks so the MasjidSync widget itself controls its final readable width.
           </p>
         </div>
         <div className="space-y-6">
