@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 const DEFAULT_BASE_URL = "https://masjidsync.co.uk";
 const DEFAULT_MASJID_ID = "13341df1-d6b7-411d-9d4c-9811171bc111";
 const SCRIPT_ELEMENT_ID = "masjidsync-widget-loader";
+const DEFAULT_TEST_PAGE_ORIGIN = "https://syed-blogs.netlify.app";
 
 type WidgetMode = "today" | "month";
 
@@ -19,6 +20,21 @@ type WidgetVariantDefinition = {
 type WidgetVariant = WidgetVariantDefinition & {
   url: string;
 };
+
+function normalizePreview(input: string | null): boolean {
+  if (input == null || input.trim() === "") {
+    return false;
+  }
+
+  const normalized = input.trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false;
+  }
+  return true;
+}
 
 const TODAY_VARIANTS: WidgetVariantDefinition[] = [
   {
@@ -104,6 +120,7 @@ function buildWidgetUrl(
   baseUrl: string,
   masjidId: string,
   options: Pick<WidgetVariantDefinition, "mode" | "showTitle" | "showLink">,
+  previewEnabled: boolean,
 ): string {
   const url = new URL(`${baseUrl}/widget/masjid/${encodeURIComponent(masjidId)}`);
   url.searchParams.set("mode", options.mode);
@@ -116,6 +133,10 @@ function buildWidgetUrl(
     url.searchParams.set("link", "0");
   }
 
+  if (previewEnabled) {
+    url.searchParams.set("preview", "1");
+  }
+
   return url.toString();
 }
 
@@ -123,14 +144,50 @@ function getDefaultHeight(mode: WidgetMode): string {
   return mode === "month" ? "760px" : "520px";
 }
 
+function buildHarnessUrl(
+  pageOrigin: string,
+  baseUrl: string,
+  masjidId: string,
+  previewEnabled: boolean,
+): string {
+  const url = new URL("/masjidsync-widget-test", `${pageOrigin.replace(/\/$/, "")}/`);
+
+  if (baseUrl !== DEFAULT_BASE_URL) {
+    url.searchParams.set("baseUrl", baseUrl);
+  }
+
+  if (masjidId !== DEFAULT_MASJID_ID) {
+    url.searchParams.set("masjidId", masjidId);
+  }
+
+  if (previewEnabled) {
+    url.searchParams.set("preview", "1");
+  }
+
+  return url.toString();
+}
+
 export default function MasjidSyncWidgetTest() {
   const [searchParams] = useSearchParams();
+  const pageOrigin = typeof window !== "undefined" ? window.location.origin : DEFAULT_TEST_PAGE_ORIGIN;
 
   const baseUrl = useMemo(
     () => normalizeBaseUrl(searchParams.get("baseUrl")),
     [searchParams],
   );
   const masjidId = searchParams.get("masjidId")?.trim() || DEFAULT_MASJID_ID;
+  const previewEnabled = useMemo(
+    () => normalizePreview(searchParams.get("preview")),
+    [searchParams],
+  );
+  const publicHarnessUrl = useMemo(
+    () => buildHarnessUrl(pageOrigin, baseUrl, masjidId, false),
+    [baseUrl, masjidId, pageOrigin],
+  );
+  const previewHarnessUrl = useMemo(
+    () => buildHarnessUrl(pageOrigin, baseUrl, masjidId, true),
+    [baseUrl, masjidId, pageOrigin],
+  );
   const helperScriptUrl = useMemo(
     () => `${baseUrl}/masjidsync-widget.js`,
     [baseUrl],
@@ -138,16 +195,16 @@ export default function MasjidSyncWidgetTest() {
   const todayVariants = useMemo<WidgetVariant[]>(
     () => TODAY_VARIANTS.map((variant) => ({
       ...variant,
-      url: buildWidgetUrl(baseUrl, masjidId, variant),
+      url: buildWidgetUrl(baseUrl, masjidId, variant, previewEnabled),
     })),
-    [baseUrl, masjidId],
+    [baseUrl, masjidId, previewEnabled],
   );
   const monthVariants = useMemo<WidgetVariant[]>(
     () => MONTH_VARIANTS.map((variant) => ({
       ...variant,
-      url: buildWidgetUrl(baseUrl, masjidId, variant),
+      url: buildWidgetUrl(baseUrl, masjidId, variant, previewEnabled),
     })),
-    [baseUrl, masjidId],
+    [baseUrl, masjidId, previewEnabled],
   );
   const allVariants = useMemo(
     () => [...todayVariants, ...monthVariants],
@@ -178,13 +235,13 @@ export default function MasjidSyncWidgetTest() {
           MasjidSync iframe test
         </p>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Public embed test page
+          {previewEnabled ? "Preview embed test page" : "Public embed test page"}
         </h1>
         <p className="max-w-3xl text-base text-muted-foreground">
           This page embeds the MasjidSync widget for masjid <span className="font-mono text-foreground">{masjidId}</span> so you can test it on a public Netlify site. By default it points at <span className="font-mono text-foreground">{baseUrl}</span>, and you can override that with <span className="font-mono text-foreground">?baseUrl=...</span> if you want to test a deploy preview.
         </p>
         <p className="max-w-3xl text-sm text-muted-foreground">
-          Every supported variant is rendered below: standard, link-only, title-only, and minimal, for both the today and month modes.
+          Every supported variant is rendered below: standard, link-only, title-only, and minimal, for both the today and month modes. This harness now defaults to the same public route used by copied snippets. Use the preview override URL below when you need to render a hidden masjid for admin testing.
         </p>
       </div>
 
@@ -194,13 +251,37 @@ export default function MasjidSyncWidgetTest() {
           <p className="text-sm text-muted-foreground">
             The resize helper script is loaded from the same MasjidSync origin as the iframe content.
           </p>
+          <div className="rounded-xl border bg-muted/30 px-4 py-3 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">Current data mode</p>
+            <p className="mt-1">
+              {previewEnabled
+                ? "Preview mode is on, so hidden or disabled masjids can render for testing."
+                : "Public mode is on, so hidden or disabled masjids will return 404 until they are listed publicly."}
+            </p>
+          </div>
         </div>
         <div className="space-y-3 text-sm">
+          <div>
+            <p className="font-medium text-foreground">Public test page URL</p>
+            <a className="break-all text-primary underline underline-offset-4" href={publicHarnessUrl} target="_blank" rel="noreferrer">
+              {publicHarnessUrl}
+            </a>
+          </div>
+          <div>
+            <p className="font-medium text-foreground">Preview override URL</p>
+            <a className="break-all text-primary underline underline-offset-4" href={previewHarnessUrl} target="_blank" rel="noreferrer">
+              {previewHarnessUrl}
+            </a>
+          </div>
           <div>
             <p className="font-medium text-foreground">Helper script</p>
             <a className="break-all text-primary underline underline-offset-4" href={helperScriptUrl} target="_blank" rel="noreferrer">
               {helperScriptUrl}
             </a>
+          </div>
+          <div>
+            <p className="font-medium text-foreground">Widget mode</p>
+            <p className="text-muted-foreground">{previewEnabled ? "Preview override (preview=1)" : "Public data only"}</p>
           </div>
           <div className="space-y-2">
             <p className="font-medium text-foreground">Variant URLs</p>
